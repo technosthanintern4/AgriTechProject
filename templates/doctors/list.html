@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <h2 class="text-center mb-5">
+        Plant Doctors
+    </h2>
+
+    <div class="row">
+
+        {% for doctor in doctors %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100 shadow">
+
+                <img src="{{ doctor.image.url }}"
+                     class="card-img-top"
+                     style="height:300px;object-fit:cover;">
+
+                <div class="card-body">
+
+                    <h4>{{ doctor.name }}</h4>
+
+                    <p>
+                        {{ doctor.specialization }}
+                    </p>
+
+                    <p>
+                        Experience:
+                        {{ doctor.experience }} Years
+                    </p>
+
+                    <a href="{% url 'book_consultation' doctor.id %}"
+                       class="btn btn-success">
+
+                        Book Consultation
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

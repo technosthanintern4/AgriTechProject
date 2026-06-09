@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <h2 class="mb-4">
+        Order #{{ order.id }}
+    </h2>
+
+    <div class="card p-4 shadow-sm">
+
+        <p>
+            <strong>Name:</strong>
+            {{ order.full_name }}
+        </p>
+
+        <p>
+            <strong>Phone:</strong>
+            {{ order.phone }}
+        </p>
+
+        <p>
+            <strong>Address:</strong>
+            {{ order.address }}
+        </p>
+
+        <p>
+            <strong>City:</strong>
+            {{ order.city }}
+        </p>
+
+        <p>
+            <strong>Total Amount:</strong>
+            ₹ {{ order.total_amount }}
+        </p>
+
+        <p>
+            <strong>Order Date:</strong>
+            {{ order.created_at }}
+        </p>
+
+    </div>
+
+    <h3 class="mt-5">
+        Ordered Products
+    </h3>
+
+    <table class="table table-bordered mt-3">
+
+        <thead>
+
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for item in items %}
+
+            <tr>
+
+                <td>{{ item.product.name }}</td>
+
+                <td>{{ item.quantity }}</td>
+
+                <td>₹ {{ item.price }}</td>
+
+                <td>₹ {{ item.subtotal }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

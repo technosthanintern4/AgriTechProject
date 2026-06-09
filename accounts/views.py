@@ -1,0 +1,137 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from .models import UserProfile
+from .forms import UserProfileForm
+
+from .forms import RegisterForm
+
+
+def register_view(request):
+
+    if request.method == 'POST':
+
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+
+            user = form.save()
+
+            login(request, user)
+
+            return redirect('home')
+
+    else:
+
+        form = RegisterForm()
+
+    return render(
+        request,
+        'accounts/register.html',
+        {'form': form}
+    )
+
+
+def login_view(request):
+
+    if request.method == 'POST':
+
+        form = AuthenticationForm(
+            request,
+            data=request.POST
+        )
+
+        if form.is_valid():
+
+            user = form.get_user()
+
+            login(request, user)
+
+            return redirect('home')
+
+    else:
+
+        form = AuthenticationForm()
+
+    return render(
+        request,
+        'accounts/login.html',
+        {'form': form}
+    )
+
+
+def logout_view(request):
+
+    logout(request)
+
+    return redirect('home')
+
+from orders.models import Order
+from consultations.models import Consultation
+from gardeners.models import GardenerBooking
+from wishlist.models import Wishlist
+
+
+@login_required
+def dashboard(request):
+
+    orders = Order.objects.filter(
+        user=request.user
+    ).order_by('-created_at')
+
+    consultations = Consultation.objects.filter(
+        user=request.user
+    ).order_by('-created_at')
+
+    bookings = GardenerBooking.objects.filter(
+        user=request.user
+    ).order_by('-created_at')
+
+    wishlist_items = Wishlist.objects.filter(
+        user=request.user
+    )
+
+    return render(
+        request,
+        'accounts/dashboard.html',
+        {
+            'orders': orders,
+            'consultations': consultations,
+            'bookings': bookings,
+            'wishlist_items': wishlist_items
+        }
+    )
+@login_required
+def profile_view(request):
+
+    profile, created = UserProfile.objects.get_or_create(
+        user=request.user
+    )
+
+    if request.method == 'POST':
+
+        form = UserProfileForm(
+            request.POST,
+            instance=profile
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect('profile')
+
+    else:
+
+        form = UserProfileForm(
+            instance=profile
+        )
+
+    return render(
+        request,
+        'accounts/profile.html',
+        {
+            'form': form
+        }
+    )

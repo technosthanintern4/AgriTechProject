@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <h2 class="text-center mb-4">
+        Our Plants & Products
+    </h2>
+
+   <form method="GET" class="row mb-4">
+
+    <div class="col-md-4">
+
+        <input type="text"
+               name="search"
+               value="{{ request.GET.search }}"
+               class="form-control"
+               placeholder="Search Plants">
+
+    </div>
+
+    <div class="col-md-4">
+
+        <select name="category"
+                class="form-select">
+
+            <option value="">
+                All Categories
+            </option>
+
+            {% for category in categories %}
+
+            <option value="{{ category.id }}">
+                {{ category.name }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+    <div class="col-md-2">
+
+        <button class="btn btn-success w-100">
+            Filter
+        </button>
+
+    </div>
+
+</form>
+
+    <div class="row">
+
+        {% for product in products %}
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card h-100 shadow-sm">
+
+                <img src="{{ product.image.url }}"
+                     class="card-img-top"
+                     style="height:250px; object-fit:cover;">
+
+                <div class="card-body">
+
+                    <h5>{{ product.name }}</h5>
+
+                    <p class="text-success fw-bold">
+                        ₹ {{ product.price }}
+                    </p>
+
+                    <a href="{% url 'product_detail' product.id %}"
+                       class="btn btn-success w-100">
+
+                        View Details
+
+                    </a>
+                    <a href="{% url 'add_to_cart' product.id %}"
+                       class="btn btn-warning w-100 mt-2">
+
+                         Add To Cart
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12 text-center">
+
+            <h4>No products found.</h4>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

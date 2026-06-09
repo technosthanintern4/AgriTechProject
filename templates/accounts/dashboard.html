@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <h2 class="mb-4">
+        My Dashboard
+    </h2>
+
+    <a href="{% url 'profile' %}"
+   class="btn btn-success mb-4">
+
+    Edit Profile
+
+    </a>
+
+    <h4>My Orders</h4>
+
+<ul class="list-group mb-4">
+
+    {% for order in orders %}
+
+    <li class="list-group-item">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <strong>Order #{{ order.id }}</strong>
+
+                <br>
+
+                ₹ {{ order.total_amount }}
+
+                <br>
+
+                <small class="text-muted">
+                    {{ order.created_at }}
+                </small>
+
+                <br>
+
+                {% if order.status == 'Pending' %}
+                    <span class="badge bg-warning text-dark">
+                        Pending
+                    </span>
+
+                {% elif order.status == 'Processing' %}
+                    <span class="badge bg-info">
+                        Processing
+                    </span>
+
+                {% elif order.status == 'Shipped' %}
+                    <span class="badge bg-primary">
+                        Shipped
+                    </span>
+
+                {% elif order.status == 'Delivered' %}
+                    <span class="badge bg-success">
+                        Delivered
+                    </span>
+
+                {% elif order.status == 'Cancelled' %}
+                    <span class="badge bg-danger">
+                        Cancelled
+                    </span>
+                {% endif %}
+
+            </div>
+
+            <div>
+
+                <a href="{% url 'order_detail' order.id %}"
+                   class="btn btn-success btn-sm">
+
+                    View Details
+
+                </a>
+
+                {% if order.status == 'Pending' %}
+
+                <a href="{% url 'cancel_order' order.id %}"
+                   class="btn btn-danger btn-sm">
+
+                    Cancel Order
+
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </li>
+
+    {% empty %}
+
+    <li class="list-group-item">
+        No Orders Yet
+    </li>
+
+    {% endfor %}
+
+</ul>
+    <h4>Plant Consultations</h4>
+
+    <ul class="list-group mb-4">
+
+        {% for consultation in consultations %}
+
+        <li class="list-group-item">
+
+            {{ consultation.plant_name }}
+
+        </li>
+
+        {% empty %}
+
+        <li class="list-group-item">
+
+            No Consultations
+
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+    <h4>Gardener Bookings</h4>
+
+    <ul class="list-group mb-4">
+
+        {% for booking in bookings %}
+
+        <li class="list-group-item">
+
+            {{ booking.gardener.name }}
+            -
+            {{ booking.service_type }}
+
+        </li>
+
+        {% empty %}
+
+        <li class="list-group-item">
+
+            No Bookings
+
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+    <h4>Wishlist</h4>
+
+    <ul class="list-group">
+
+        {% for item in wishlist_items %}
+
+        <li class="list-group-item">
+
+            {{ item.product.name }}
+
+        </li>
+
+        {% empty %}
+
+        <li class="list-group-item">
+
+            Wishlist Empty
+
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+</div>
+
+{% endblock %}
