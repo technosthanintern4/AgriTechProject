@@ -1,31 +1,31 @@
-"""
-Django settings for agritech project.
-"""
-
-from pathlib import Path
 import os
+from pathlib import Path
+
 from dotenv import load_dotenv
 import dj_database_url
 
 # Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load environment variables
+# Load .env variables
 load_dotenv()
 
-# SECURITY
+# SECURITY WARNING
 SECRET_KEY = os.getenv(
     "SECRET_KEY",
     "django-insecure-3tawaqnkoa33+o^65&s9lf7h6+250g&22b5u*34zd((h5^qe4c"
 )
 
-DEBUG = os.getenv("DEBUG", "False") == "True"
+# DEBUG
+DEBUG = os.getenv("DEBUG",) == "True"
 
+# ALLOWED HOSTS
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
-    "localhost,127.0.0.1"
+    "localhost,127.0.0.1,agritechproject-2.onrender.com"
 ).split(",")
 
+# CSRF
 CSRF_TRUSTED_ORIGINS = [
     "https://agritechproject-2.onrender.com",
 ]
@@ -56,7 +56,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -93,29 +92,10 @@ DATABASES = {
     )
 }
 
-# Password validation
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
 # Internationalization
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 # Static files
@@ -126,6 +106,8 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
