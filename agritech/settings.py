@@ -23,12 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-3tawaqnkoa33+o^65&s9lf7h6+250g&22b5u*34zd((h5^qe4c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG =  os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = os.getenv(
-    "ALLOWED_HOSTS",
-    "localhost,127.0.0.1"
-).split(",")
 
 
 # Application definition
@@ -102,6 +98,15 @@ DATABASES = {
         conn_max_age=600
     )
 }
+
+ALLOWED_HOSTS = os.getenv(
+    "ALLOWED_HOSTS",
+    "localhost,127.0.0.1"
+).split(",")
+CSRF_TRUSTED_ORIGINS = [
+    "https://agritechproject-2.onrender.com"
+]
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
