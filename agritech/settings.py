@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+
+    'cloudinary_storage',
+    'cloudinary',
     'accounts',
     'core',
     'categories',
@@ -52,8 +55,7 @@ INSTALLED_APPS = [
     'services',
     'reviews',
     'wishlist',
-    'cloudinary_storage',
-    'cloudinary',
+   
 ]
 
 MIDDLEWARE = [
