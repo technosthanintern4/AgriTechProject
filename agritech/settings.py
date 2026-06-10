@@ -1,4 +1,5 @@
 import os
+import cloudinary
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -51,6 +52,8 @@ INSTALLED_APPS = [
     'services',
     'reviews',
     'wishlist',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -91,6 +94,13 @@ DATABASES = {
         conn_max_age=600
     )
 }
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
