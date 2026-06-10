@@ -1,27 +1,20 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 
 class Doctor(models.Model):
 
-    name = models.CharField(
-        max_length=200
-    )
+    name = models.CharField(max_length=200)
 
-    specialization = models.CharField(
-        max_length=200
-    )
+    specialization = models.CharField(max_length=200)
 
     experience = models.IntegerField()
 
-    image = models.ImageField(
-        upload_to='doctors/'
-    )
+    image = CloudinaryField('image')
 
     bio = models.TextField()
 
-    is_available = models.BooleanField(
-        default=True
-    )
+    is_available = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

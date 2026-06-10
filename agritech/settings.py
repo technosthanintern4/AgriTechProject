@@ -1,37 +1,31 @@
 import os
-import cloudinary
 from pathlib import Path
-
 from dotenv import load_dotenv
 import dj_database_url
+import cloudinary
 
-# Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load .env variables
 load_dotenv()
 
-# SECURITY WARNING
+# SECURITY
 SECRET_KEY = os.getenv(
     "SECRET_KEY",
-    "django-insecure-3tawaqnkoa33+o^65&s9lf7h6+250g&22b5u*34zd((h5^qe4c"
+    "django-insecure-change-this"
 )
 
-# DEBUG
-DEBUG = os.getenv("DEBUG",) == "True"
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-# ALLOWED HOSTS
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
     "localhost,127.0.0.1,agritechproject-2.onrender.com"
 ).split(",")
 
-# CSRF
 CSRF_TRUSTED_ORIGINS = [
     "https://agritechproject-2.onrender.com",
 ]
 
-# Application definition
+# APPLICATIONS
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,9 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-
-    'cloudinary_storage',
     'cloudinary',
+
     'accounts',
     'core',
     'categories',
@@ -55,12 +48,13 @@ INSTALLED_APPS = [
     'services',
     'reviews',
     'wishlist',
-   
 ]
 
+# MIDDLEWARE
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -80,6 +74,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -89,39 +84,42 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'agritech.wsgi.application'
 
-# Database
+# DATABASE
 DATABASES = {
     "default": dj_database_url.parse(
         os.getenv("DATABASE_URL"),
-        conn_max_age=600
+        conn_max_age=600,
+        ssl_require=True
     )
 }
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
-}
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# CLOUDINARY
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+)
 
-# Internationalization
+# INTERNATIONALIZATION
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
+
 USE_I18N = True
 USE_TZ = True
 
-# Static files
+# STATIC FILES
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / 'static'
 ]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    }
+}
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
-# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
