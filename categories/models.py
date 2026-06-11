@@ -1,4 +1,5 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 
 class Category(models.Model):
@@ -7,8 +8,8 @@ class Category(models.Model):
         max_length=100
     )
 
-    image = models.ImageField(
-        upload_to='categories/'
+    image = CloudinaryField(
+        'image'
     )
 
     description = models.TextField(

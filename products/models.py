@@ -1,5 +1,6 @@
 from django.db import models
 from categories.models import Category
+from cloudinary.models import CloudinaryField
 
 
 class Product(models.Model):
@@ -22,8 +23,8 @@ class Product(models.Model):
 
     stock = models.IntegerField()
 
-    image = models.ImageField(
-        upload_to='products/'
+    image = CloudinaryField(
+        'image'
     )
 
     is_available = models.BooleanField(
