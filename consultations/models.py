@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from doctors.models import Doctor
+from cloudinary.models import CloudinaryField
 
 
 class Consultation(models.Model):
@@ -27,8 +28,8 @@ class Consultation(models.Model):
 
     disease_description = models.TextField()
 
-    plant_image = models.ImageField(
-        upload_to='consultations/'
+    plant_image = CloudinaryField(
+        'image'
     )
 
     appointment_date = models.DateField()
