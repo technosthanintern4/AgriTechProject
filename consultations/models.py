@@ -28,9 +28,10 @@ class Consultation(models.Model):
 
     disease_description = models.TextField()
 
-    plant_image = CloudinaryField(
-        'image'
+    image = CloudinaryField(
+        'image',
     )
+
 
     appointment_date = models.DateField()
 

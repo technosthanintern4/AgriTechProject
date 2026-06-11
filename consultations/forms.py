@@ -10,7 +10,7 @@ class ConsultationForm(forms.ModelForm):
         fields = [
             'plant_name',
             'disease_description',
-            'plant_image',
+            'image',
             'appointment_date'
         ]
 
