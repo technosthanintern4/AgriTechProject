@@ -4,25 +4,92 @@
 
 <div class="container py-5">
 
-    <h2>Register</h2>
+    <div class="row justify-content-center">
 
-    {% if form.errors %}
-        <div class="alert alert-danger">
-            {{ form.errors }}
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <div class="card-body">
+
+                    <h2 class="text-center mb-4">
+                        Create Account
+                    </h2>
+
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.errors }}
+                    </div>
+                    {% endif %}
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Username
+                            </label>
+                            {{ form.username }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Email
+                            </label>
+                            {{ form.email }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                User Type
+                            </label>
+                            {{ form.user_type }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Password
+                            </label>
+                            {{ form.password1 }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Confirm Password
+                            </label>
+                            {{ form.password2 }}
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success w-100">
+
+                            Register
+
+                        </button>
+
+                    </form>
+
+                    <hr>
+
+                    <div class="text-center">
+
+                        Already have an account?
+
+                        <a href="{% url 'login' %}">
+                            Login
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
-    {% endif %}
 
-    <form method="post">
-
-        {% csrf_token %}
-
-        {{ form.as_p }}
-
-        <button type="submit" class="btn btn-success">
-            Register
-        </button>
-
-    </form>
+    </div>
 
 </div>
 

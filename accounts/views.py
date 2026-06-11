@@ -2,10 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .models import UserProfile
-from .forms import UserProfileForm
 
-from .forms import RegisterForm
+from .models import UserProfile
+from .forms import RegisterForm, UserProfileForm
+
+from orders.models import Order
+from consultations.models import Consultation
+from gardeners.models import GardenerBooking
+from wishlist.models import Wishlist
 
 
 def register_view(request):
@@ -18,6 +22,11 @@ def register_view(request):
 
             user = form.save()
 
+            UserProfile.objects.create(
+                user=user,
+                user_type=form.cleaned_data['user_type']
+            )
+
             login(request, user)
 
             return redirect('home')
@@ -29,7 +38,9 @@ def register_view(request):
     return render(
         request,
         'accounts/register.html',
-        {'form': form}
+        {
+            'form': form
+        }
     )
 
 
@@ -57,7 +68,9 @@ def login_view(request):
     return render(
         request,
         'accounts/login.html',
-        {'form': form}
+        {
+            'form': form
+        }
     )
 
 
@@ -66,11 +79,6 @@ def logout_view(request):
     logout(request)
 
     return redirect('home')
-
-from orders.models import Order
-from consultations.models import Consultation
-from gardeners.models import GardenerBooking
-from wishlist.models import Wishlist
 
 
 @login_required
@@ -102,6 +110,8 @@ def dashboard(request):
             'wishlist_items': wishlist_items
         }
     )
+
+
 @login_required
 def profile_view(request):
 
