@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 import dj_database_url
 import cloudinary
@@ -8,7 +9,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
 
+
 # SECURITY
+
 SECRET_KEY = os.getenv(
     "SECRET_KEY",
     "django-insecure-change-this"
@@ -25,7 +28,9 @@ CSRF_TRUSTED_ORIGINS = [
     "https://agritechproject-2.onrender.com",
 ]
 
+
 # APPLICATIONS
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -51,7 +56,9 @@ INSTALLED_APPS = [
     'wishlist',
 ]
 
+
 # MIDDLEWARE
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -64,7 +71,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'agritech.urls'
+
+
+# TEMPLATES
 
 TEMPLATES = [
     {
@@ -78,15 +89,19 @@ TEMPLATES = [
 
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
                 'core.context_processors.site_settings',
             ],
         },
     },
 ]
 
+
 WSGI_APPLICATION = 'agritech.wsgi.application'
 
+
 # DATABASE
+
 DATABASES = {
     "default": dj_database_url.parse(
         os.getenv("DATABASE_URL"),
@@ -95,24 +110,42 @@ DATABASES = {
     )
 }
 
-# CLOUDINARY
-cloudinary.config(
-    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.getenv("CLOUDINARY_API_KEY"),
-    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
-    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
-    MEDIA_URL = "/media/"
-    )
+# PASSWORD VALIDATION
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
 
 # INTERNATIONALIZATION
+
 LANGUAGE_CODE = 'en-us'
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+
 USE_TZ = True
 
+
 # STATIC FILES
+
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
@@ -124,7 +157,29 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    }
+    },
 }
+
+
+# CLOUDINARY
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+)
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+}
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+MEDIA_URL = "/media/"
+
+
+# DEFAULT PRIMARY KEY
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
