@@ -1,7 +1,10 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
     <div class="container">
 
-        <a class="navbar-brand" href="/">
+        <!-- Logo -->
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="/">
             🌱 AgriTech Nursery
         </a>
 
@@ -16,88 +19,212 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
 
-            <ul class="navbar-nav ms-auto">
+            <!-- Left Side -->
+            <ul class="navbar-nav">
 
+                <!-- Home -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/">
+                    <a class="nav-link text-white" href="/">
                         Home
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/products/">
-                        Shop
+                <!-- Services -->
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle text-white"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown">
+
+                        Services
+
                     </a>
+
+                    <ul class="dropdown-menu shadow">
+
+                        <li>
+                            <a class="dropdown-item"
+                               href="/doctors/">
+
+                                Doctors Consultation
+
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item"
+                               href="{% url 'gardener_list' %}">
+
+                                Gardeners
+
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item"
+                               href="/consultations/">
+
+                                All Services
+
+                            </a>
+                        </li>
+
+                    </ul>
+
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/doctors/">
-                        Doctors
+                <!-- Products -->
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle text-white"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown">
+
+                        Products
+
                     </a>
+
+                    <ul class="dropdown-menu shadow">
+
+                        <li>
+                            <a class="dropdown-item"
+                               href="/products/">
+
+                                Plants
+
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item"
+                               href="/products/">
+
+                                Accessories
+
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item"
+                               href="/products/">
+
+                                All Products
+
+                            </a>
+                        </li>
+
+                    </ul>
+
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'gardener_list' %}">
+            </ul>
 
-                        Gardeners
-                    </a>
-                </li>
-                 
-                <li class="nav-item">
-                <a class="nav-link"href="/wishlist/">
 
-                       Wishlist
-
-                </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Contact
-                    </a>
-                </li>
+            <!-- Right Side -->
+            <ul class="navbar-nav ms-auto align-items-center">
 
                 {% if user.is_authenticated %}
-                
 
-               <li class="nav-item">
-                  <a class="nav-link" href="{% url 'dashboard' %}">
-                   My Account
-                  </a>
-</li>
+                <!-- Cart -->
+                <li class="nav-item me-4 position-relative">
 
-<li class="nav-item">
-    <a class="nav-link" href="/cart/">
-        Cart
-    </a>
-</li>
+                    <a class="nav-link text-white"
+                       href="/cart/">
 
-<li class="nav-item">
-    <a class="nav-link" href="/accounts/logout/">
-        Logout
-    </a>
-</li>
+                        <i class="bi bi-cart3 fs-4"></i>
 
-{% else %}
+                        {% if request.session.cart %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ request.session.cart|length }}
+                        </span>
+                        {% endif %}
 
-<li class="nav-item">
-    <a class="nav-link" href="/cart/">
-        Cart
-    </a>
-</li>
+                    </a>
 
-<li class="nav-item">
-    <a class="nav-link" href="/accounts/login/">
-        Login
-    </a>
-</li>
-
-<li class="nav-item">
-    <a class="nav-link" href="/accounts/register/">
-        Register
-    </a>
-</li>
+                </li>
 
 
+                <!-- Profile Dropdown -->
+                <li class="nav-item dropdown me-3">
+
+                    <a class="nav-link dropdown-toggle d-flex align-items-center"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown">
+
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                            width="42"
+                            height="42"
+                            class="rounded-circle border border-light">
+
+                        <span class="ms-2 text-white fw-semibold">
+
+                            {{ user.username }}
+
+                        </span>
+
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+
+                        <li>
+
+                            <a class="dropdown-item"
+                               href="{% url 'profile' %}">
+
+                                <i class="bi bi-pencil-square me-2"></i>
+
+                                Edit Profile
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </li>
+
+
+                <!-- Logout -->
+                <li class="nav-item">
+
+                    <a class="btn btn-danger btn-sm"
+                       href="{% url 'logout' %}">
+
+                        <i class="bi bi-box-arrow-right me-1"></i>
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+                {% else %}
+
+                <li class="nav-item">
+
+                    <a class="nav-link text-white"
+                       href="{% url 'login' %}">
+
+                        Login
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link text-white"
+                       href="{% url 'register' %}">
+
+                        Register
+
+                    </a>
+
+                </li>
 
                 {% endif %}
 
