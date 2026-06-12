@@ -100,21 +100,20 @@ DATABASES = {
 
 # CLOUDINARY
 cloudinary.config(
-    cloud_name=os.getenv("dzfxtxf3j"),
-    api_key=os.getenv("914131421559769"),
-    api_secret=os.getenv("A08_izh7kgKogaUuI4ZGbm_SexM"),
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
 )
 
 CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.getenv("dzfxtxf3j"),
-    "API_KEY": os.getenv("914131421559769"),
-    "API_SECRET": os.getenv("A08_izh7kgKogaUuI4ZGbm_SexM"),
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
 }
 
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
 STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
