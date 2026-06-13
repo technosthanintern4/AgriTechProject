@@ -8,9 +8,6 @@ class ConsultationForm(forms.ModelForm):
         model = Consultation
 
         fields = [
-            'plant_name',
-            'disease_description',
-            'image',
             'appointment_date'
         ]
 
@@ -19,17 +16,6 @@ class ConsultationForm(forms.ModelForm):
                 attrs={
                     'type': 'date',
                     'class': 'form-control'
-                }
-            ),
-            'plant_name': forms.TextInput(
-                attrs={
-                    'class': 'form-control'
-                }
-            ),
-            'disease_description': forms.Textarea(
-                attrs={
-                    'class': 'form-control',
-                    'rows': 4
                 }
             ),
         }

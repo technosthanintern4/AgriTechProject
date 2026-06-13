@@ -37,12 +37,26 @@
 
                         {% csrf_token %}
 
-                        {{ form.as_p }}
+                        <!-- Appointment Date -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+                                Select Appointment Date
+                            </label>
+
+                            <input type="date"
+                                   name="appointment_date"
+                                   class="form-control"
+                                   min=""
+                                   max=""
+                                   id="appointment_date">
+
+                        </div>
 
                         <button type="submit"
                                 class="btn btn-success">
 
-                            Submit Request
+                            Confirm Booking
 
                         </button>
 
@@ -57,5 +71,21 @@
     </div>
 
 </div>
+
+<script>
+
+let today = new Date();
+
+let maxDate = new Date();
+
+maxDate.setDate(today.getDate() + 7);
+
+document.getElementById("appointment_date").min =
+    today.toISOString().split("T")[0];
+
+document.getElementById("appointment_date").max =
+    maxDate.toISOString().split("T")[0];
+
+</script>
 
 {% endblock %}

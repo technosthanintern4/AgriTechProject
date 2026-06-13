@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from doctors.models import Doctor
-from cloudinary.models import CloudinaryField
 
 
 class Consultation(models.Model):
@@ -22,17 +21,6 @@ class Consultation(models.Model):
         on_delete=models.CASCADE
     )
 
-    plant_name = models.CharField(
-        max_length=255
-    )
-
-    disease_description = models.TextField()
-
-    image = CloudinaryField(
-        'image',
-    )
-
-
     appointment_date = models.DateField()
 
     status = models.CharField(
@@ -46,4 +34,8 @@ class Consultation(models.Model):
     )
 
     def __str__(self):
-        return self.plant_name
+        return (
+            f"{self.user.username} - "
+            f"{self.doctor.name} - "
+            f"{self.appointment_date}"
+        )
