@@ -2,22 +2,40 @@
 
 {% block content %}
 
+{% comment %} Dynamic hero: admin can upload a video or image via SiteSettings. {% endcomment %}
+{% if site_settings.background_video %}
+<section class="position-relative" style="height:420px; overflow:hidden;">
+    <video class="w-100 h-100" autoplay muted loop playsinline style="object-fit:cover;">
+        <source src="{{ site_settings.background_video.url }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background:rgba(0,128,0,0.45);"></div>
+    <div class="container text-center position-absolute top-50 start-50 translate-middle text-white">
+        <h1 class="display-3">AgriTech Nursery</h1>
+        <p class="lead">Plants • Plant Doctors • Gardeners • Home Delivery</p>
+        <a href="#" class="btn btn-light btn-lg me-2">Shop Plants</a>
+        <a href="#" class="btn btn-outline-light btn-lg">Book Plant Doctor</a>
+    </div>
+</section>
+{% elif site_settings.background_image %}
+<section style="background-image:url('{{ site_settings.background_image.url }}'); background-size:cover; background-position:center; background-attachment:fixed; height:420px;">
+    <div class="container text-center text-white d-flex flex-column justify-content-center" style="height:420px; background:rgba(0,128,0,0.35);">
+        <h1 class="display-3">AgriTech Nursery</h1>
+        <p class="lead">Plants • Plant Doctors • Gardeners • Home Delivery</p>
+        <a href="#" class="btn btn-light btn-lg me-2">Shop Plants</a>
+        <a href="#" class="btn btn-outline-light btn-lg">Book Plant Doctor</a>
+    </div>
+</section>
+{% else %}
 <section class="bg-success text-white py-5">
     <div class="container text-center">
         <h1 class="display-3">AgriTech Nursery</h1>
-        <p class="lead">
-            Plants • Plant Doctors • Gardeners • Home Delivery
-        </p>
-
-        <a href="#" class="btn btn-light btn-lg me-2">
-            Shop Plants
-        </a>
-
-        <a href="#" class="btn btn-outline-light btn-lg">
-            Book Plant Doctor
-        </a>
+        <p class="lead">Plants • Plant Doctors • Gardeners • Home Delivery</p>
+        <a href="#" class="btn btn-light btn-lg me-2">Shop Plants</a>
+        <a href="#" class="btn btn-outline-light btn-lg">Book Plant Doctor</a>
     </div>
 </section>
+{% endif %}
 
 <section class="container py-5">
     <h2 class="text-center mb-4">
