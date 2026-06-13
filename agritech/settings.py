@@ -20,7 +20,7 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
-    "localhost,127.0.0.1,agritechproject-2.onrender.com,https://nursery.technosthan.com/"
+    "localhost,127.0.0.1,agritechproject-2.onrender.com,nursery.technosthan.com"
 ).split(",")
 
 CSRF_TRUSTED_ORIGINS = [
