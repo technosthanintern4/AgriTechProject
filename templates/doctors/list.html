@@ -20,7 +20,7 @@
                      class="card-img-top"
                      style="height:300px;object-fit:cover;">
 
-                <div class="card-body">
+                <div class="card-body text-center">
 
                     <h4>{{ doctor.name }}</h4>
 
@@ -32,6 +32,10 @@
                         Experience:
                         {{ doctor.experience }} Years
                     </p>
+
+                    <h5 class="text-success fw-bold mb-3">
+                        Consultation Fee: ₹{{ doctor.fees }}
+                    </h5>
 
                     <a href="{% url 'book_consultation' doctor.id %}"
                        class="btn btn-success">
