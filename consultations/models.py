@@ -66,3 +66,45 @@ class Consultation(models.Model):
             f"{self.doctor.name} - "
             f"{self.appointment_date}"
         )
+
+
+class NotificationLog(models.Model):
+
+    METHODS = [
+        ('email', 'Email'),
+        ('whatsapp', 'WhatsApp'),
+        ('sms', 'SMS'),
+        ('call', 'Phone Call'),
+    ]
+
+    consultation = models.ForeignKey(
+        Consultation,
+        on_delete=models.CASCADE,
+        related_name='notifications'
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    method = models.CharField(
+        max_length=20,
+        choices=METHODS
+    )
+
+    message = models.TextField()
+
+    success = models.BooleanField(
+        default=True
+    )
+
+    sent_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return (
+            f"{self.user.username} - "
+            f"{self.method}"
+        )

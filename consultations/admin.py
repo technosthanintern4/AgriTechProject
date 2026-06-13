@@ -3,46 +3,76 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
 
-from .models import Consultation
+from .models import Consultation, NotificationLog
 
 
-@admin.action(description="Send confirmation email to selected users")
-def send_confirmation_email(modeladmin, request, queryset):
+@admin.action(description="Send confirmation to selected users")
+def send_confirmation(modeladmin, request, queryset):
 
     for consultation in queryset:
 
-        if consultation.confirmation_method == "email":
+        message = consultation.confirmation_message
 
-            message = consultation.confirmation_message
+        if not message:
 
-            if not message:
-
-                message = (
-                    f"Hello {consultation.user.username},\n\n"
-                    f"Your appointment with Dr. {consultation.doctor.name} "
-                    f"has been confirmed.\n\n"
-                    f"Appointment Date: {consultation.appointment_date}\n\n"
-                    f"Thank you,\n"
-                    f"AgriTech Nursery"
-                )
-
-            send_mail(
-                subject="Appointment Confirmation",
-                message=message,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[consultation.user.email],
-                fail_silently=False
+            message = (
+                f"Hello {consultation.user.username},\n\n"
+                f"Your appointment with Dr. {consultation.doctor.name} "
+                f"has been confirmed.\n\n"
+                f"Appointment Date: {consultation.appointment_date}\n\n"
+                f"Thank you,\n"
+                f"AgriTech Nursery"
             )
 
-            consultation.confirmation_sent = True
-            consultation.confirmed_at = timezone.now()
-            consultation.save()
+        success = True
+
+        try:
+
+            if consultation.confirmation_method == "email":
+
+                send_mail(
+                    subject="Appointment Confirmation",
+                    message=message,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[consultation.user.email],
+                    fail_silently=False
+                )
+
+            elif consultation.confirmation_method == "whatsapp":
+
+                # WhatsApp API code later
+                pass
+
+            elif consultation.confirmation_method == "sms":
+
+                # SMS API code later
+                pass
+
+            elif consultation.confirmation_method == "call":
+
+                # Calling API code later
+                pass
+
+        except Exception:
+            success = False
+
+        consultation.confirmation_sent = success
+        consultation.confirmed_at = timezone.now()
+        consultation.save()
+
+        NotificationLog.objects.create(
+            consultation=consultation,
+            user=consultation.user,
+            method=consultation.confirmation_method,
+            message=message,
+            success=success
+        )
 
 
 @admin.register(Consultation)
 class ConsultationAdmin(admin.ModelAdmin):
 
-    actions = [send_confirmation_email]
+    actions = [send_confirmation]
 
     list_display = [
         'user',
@@ -92,3 +122,24 @@ class ConsultationAdmin(admin.ModelAdmin):
         ),
 
     )
+
+
+@admin.register(NotificationLog)
+class NotificationLogAdmin(admin.ModelAdmin):
+
+    list_display = [
+        'user',
+        'consultation',
+        'method',
+        'success',
+        'sent_at'
+    ]
+
+    list_filter = [
+        'method',
+        'success'
+    ]
+
+    search_fields = [
+        'user__username'
+    ]
