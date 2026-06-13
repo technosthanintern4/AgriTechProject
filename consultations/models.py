@@ -11,6 +11,13 @@ class Consultation(models.Model):
         ('Completed', 'Completed'),
     ]
 
+    CONFIRMATION_METHODS = [
+        ('email', 'Email'),
+        ('whatsapp', 'WhatsApp'),
+        ('sms', 'SMS'),
+        ('call', 'Phone Call'),
+    ]
+
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE
@@ -27,6 +34,26 @@ class Consultation(models.Model):
         max_length=20,
         choices=STATUS_CHOICES,
         default='Pending'
+    )
+
+    confirmation_method = models.CharField(
+        max_length=20,
+        choices=CONFIRMATION_METHODS,
+        default='email'
+    )
+
+    confirmation_message = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    confirmation_sent = models.BooleanField(
+        default=False
+    )
+
+    confirmed_at = models.DateTimeField(
+        blank=True,
+        null=True
     )
 
     created_at = models.DateTimeField(
