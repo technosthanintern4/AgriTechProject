@@ -43,16 +43,7 @@
             <h2 class="display-6">Our Services</h2>
             <p class="text-muted">Discover how AgriTech Nursery makes gardening easier with plants, expert consultations, and gardener support.</p>
         </div>
-        {% if site_settings %}
-        <div class="col-md-4 text-md-end">
-            <span class="badge bg-success me-1">Settings Loaded</span>
-            {% if site_settings.enable_watermark %}
-                <span class="badge bg-info">Watermark On</span>
-            {% else %}
-                <span class="badge bg-secondary">Watermark Off</span>
-            {% endif %}
-        </div>
-        {% endif %}
+        <!-- Admin status badges removed for public site -->
     </div>
 
     <div class="row">
