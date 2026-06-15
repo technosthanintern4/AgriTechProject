@@ -1,5 +1,5 @@
 <!-- Watermark Display Include -->
-{% if site_settings.enable_watermark %}
+{% if site_settings and site_settings.enable_watermark %}
     <div class="watermark {{ site_settings.watermark_position }}" style="opacity: {{ site_settings.watermark_opacity }};">
         {% if site_settings.watermark_video %}
             <!-- Video Watermark -->

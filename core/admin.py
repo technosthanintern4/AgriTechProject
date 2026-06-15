@@ -17,7 +17,11 @@ class SiteSettingsAdmin(admin.ModelAdmin):
     )
 
     list_display = ['__str__', 'enable_watermark', 'enable_background_video']
-    
+
+    def has_add_permission(self, request):
+        """Allow only one SiteSettings instance."""
+        return not SiteSettings.objects.exists()
+
     def has_delete_permission(self, request, obj=None):
         """Prevent deletion of SiteSettings"""
         return False
