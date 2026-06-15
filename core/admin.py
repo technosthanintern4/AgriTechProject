@@ -1,32 +1,10 @@
-from django import forms
 from django.contrib import admin
 
 from .models import SiteSettings
 
 
-class SiteSettingsAdminForm(forms.ModelForm):
-    class Meta:
-        model = SiteSettings
-        fields = '__all__'
-        widgets = {
-            'watermark_position': forms.Select(attrs={'style': 'max-width: 320px;'}),
-            'watermark_opacity': forms.NumberInput(attrs={
-                'min': '0.0',
-                'max': '1.0',
-                'step': '0.05',
-                'style': 'max-width: 120px;'
-            }),
-        }
-
-    class Media:
-        css = {
-            'all': ('css/admin-site-settings.css',)
-        }
-
-
 @admin.register(SiteSettings)
 class SiteSettingsAdmin(admin.ModelAdmin):
-    form = SiteSettingsAdminForm
     fieldsets = (
         ('Background settings', {
             'classes': ('wide',),
