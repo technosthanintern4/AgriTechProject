@@ -6,6 +6,8 @@ class SiteSettings(models.Model):
     # Background Settings
     background_image = models.ImageField(
         upload_to='backgrounds/',
+        blank=True,
+        null=True,
         help_text='Upload a background image. Recommended size: 1920x1080px'
     )
 
