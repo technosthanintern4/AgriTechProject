@@ -25,7 +25,7 @@ ALLOWED_HOSTS = os.getenv(
 
 CSRF_TRUSTED_ORIGINS = [
     "https://agritechproject-2.onrender.com",
-    "https://nursery.technosthan.com/",
+    "https://nursery.technosthan.com",
 ]
 
 # APPLICATIONS
@@ -35,9 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
+
     'cloudinary',
     'cloudinary_storage',
-    'django.contrib.staticfiles',
 
     'accounts',
     'core',
@@ -106,12 +107,20 @@ CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
 
 if CLOUDINARY_URL:
     cloudinary.config(cloudinary_url=CLOUDINARY_URL)
-    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-    DEFAULT_STORAGE_BACKEND = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+    DEFAULT_STORAGE_BACKEND = (
+        "cloudinary_storage.storage.MediaCloudinaryStorage"
+    )
+
     CLOUDINARY_STORAGE = {
         "CLOUDINARY_URL": CLOUDINARY_URL,
     }
-elif CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
+
+elif (
+    CLOUDINARY_CLOUD_NAME
+    and CLOUDINARY_API_KEY
+    and CLOUDINARY_API_SECRET
+):
     cloudinary.config(
         cloud_name=CLOUDINARY_CLOUD_NAME,
         api_key=CLOUDINARY_API_KEY,
@@ -124,59 +133,57 @@ elif CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
         "API_SECRET": CLOUDINARY_API_SECRET,
     }
 
-    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-    DEFAULT_STORAGE_BACKEND = "cloudinary_storage.storage.MediaCloudinaryStorage"
+    DEFAULT_STORAGE_BACKEND = (
+        "cloudinary_storage.storage.MediaCloudinaryStorage"
+    )
+
 else:
     CLOUDINARY_STORAGE = {}
-    DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
-    DEFAULT_STORAGE_BACKEND = "django.core.files.storage.FileSystemStorage"
 
+    DEFAULT_STORAGE_BACKEND = (
+        "django.core.files.storage.FileSystemStorage"
+    )
+
+# STORAGES
 STORAGES = {
     "default": {
         "BACKEND": DEFAULT_STORAGE_BACKEND,
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
-
+# MEDIA
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # INTERNATIONALIZATION
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
 USE_TZ = True
 
 # STATIC FILES
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    BASE_DIR / "static",
 ]
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # EMAIL SETTINGS
-
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 EMAIL_HOST = "smtp.gmail.com"
-
 EMAIL_PORT = 587
-
 EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
