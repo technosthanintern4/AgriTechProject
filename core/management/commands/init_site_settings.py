@@ -14,16 +14,13 @@ class Command(BaseCommand):
 
         try:
             SiteSettings.objects.create(
-                enable_watermark=False,
                 enable_background_video=False,
-                watermark_position='bottom-right',
-                watermark_opacity=0.8
             )
             self.stdout.write(
                 self.style.SUCCESS('SiteSettings initialized successfully!')
             )
             self.stdout.write(
-                self.style.SUCCESS('Please upload background image and watermark through Django admin.')
+                self.style.SUCCESS('Please upload a background video through Django admin.')
             )
         except Exception as e:
             self.stdout.write(

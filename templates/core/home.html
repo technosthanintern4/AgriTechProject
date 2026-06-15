@@ -19,19 +19,6 @@
         </div>
     </div>
 </section>
-{% elif site_settings and site_settings.background_image %}
-<section style="background-image:url('{{ site_settings.background_image.url }}'); background-size:cover; background-position:center; background-attachment:fixed; min-height:100vh;">
-    <div class="container text-center text-white d-flex flex-column justify-content-center align-items-center" style="min-height:100vh; background:rgba(0,128,0,0.35);">
-        <div style="max-width:900px;">
-            <h1 class="display-3">AgriTech Nursery</h1>
-            <p class="lead">Plants • Plant Doctors • Gardeners • Home Delivery</p>
-            <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
-                <a href="#" class="btn btn-light btn-lg">Shop Plants</a>
-                <a href="#" class="btn btn-outline-light btn-lg">Book Plant Doctor</a>
-            </div>
-        </div>
-    </div>
-</section>
 {% else %}
 <section class="bg-success text-white d-flex align-items-center" style="min-height:100vh;">
     <div class="container text-center py-5">

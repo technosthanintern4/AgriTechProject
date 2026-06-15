@@ -26,13 +26,7 @@
 
 </head>
 
-{% if site_settings and site_settings.enable_background_video and site_settings.background_video %}
 <body style="padding-top:70px;">
-{% elif site_settings and site_settings.background_image %}
-<body style="padding-top:70px; background-image:url('{{ site_settings.background_image.url }}'); background-size:cover; background-position:center; background-repeat:no-repeat; background-attachment:fixed;">
-{% else %}
-<body style="padding-top:70px;">
-{% endif %}
 
     <!-- Background Video -->
     {% include 'includes/background-video.html' %}
@@ -43,9 +37,6 @@
     {% endblock %}
 
     {% include 'includes/footer.html' %}
-
-    <!-- Watermark -->
-    {% include 'includes/watermark.html' %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
