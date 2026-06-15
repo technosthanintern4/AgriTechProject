@@ -189,21 +189,48 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# ==========================
-# JAZZMIN ADMIN SETTINGS
-# ==========================
+# EMAIL SETTINGS
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+# =====================================
+# ADMIN PANEL CUSTOMIZATION
+# =====================================
+from django.contrib import admin
+
+admin.site.site_header = "AgriTech Administration"
+admin.site.site_title = "AgriTech Administration"
+admin.site.index_title = "Dashboard"
+
+
+# =====================================
+# JAZZMIN SETTINGS
+# =====================================
 JAZZMIN_SETTINGS = {
     "site_title": "AgriTech Administration",
     "site_header": "AgriTech Administration",
     "site_brand": "AgriTech Administration",
-    "welcome_sign": "Welcome to AgriTech Administration",
-
-    # Logo (optional)
-    # Put logo at static/images/logo.png
     "site_logo": "images/logo.png",
     "site_logo_classes": "img-circle",
+    "welcome_sign": "Welcome to AgriTech Administration",
 
-    # Search bar
+    # Remove "Administration Log"
+    "show_ui_builder": False,
+
+    # Sidebar
+    "show_sidebar": True,
+    "navigation_expanded": True,
+
+    # Search
     "search_model": [
         "auth.User",
         "products.Product",
@@ -212,26 +239,21 @@ JAZZMIN_SETTINGS = {
         "consultations.Consultation",
     ],
 
-    # Top menu links
+    # Top Menu
     "topmenu_links": [
-        {"name": "Home", "url": "/", "permissions": ["auth.view_user"]},
-        {"model": "auth.User"},
+        {"name": "Website", "url": "/", "new_window": True},
     ],
 
-    # User menu links
+    # User Menu
     "usermenu_links": [
-        {"name": "Visit Site", "url": "/", "new_window": True},
+        {"name": "Visit Website", "url": "/", "new_window": True},
     ],
-
-    # Sidebar
-    "show_sidebar": True,
-    "navigation_expanded": True,
 
     # Icons
     "icons": {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
+        "auth.group": "fas fa-users",
 
         "products.Product": "fas fa-seedling",
         "categories.Category": "fas fa-list",
