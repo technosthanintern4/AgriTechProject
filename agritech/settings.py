@@ -203,34 +203,27 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # =====================================
-# ADMIN PANEL CUSTOMIZATION
-# =====================================
-from django.contrib import admin
-
-admin.site.site_header = "AgriTech Administration"
-admin.site.site_title = "AgriTech Administration"
-admin.site.index_title = "Dashboard"
-
-
-# =====================================
 # JAZZMIN SETTINGS
 # =====================================
+
 JAZZMIN_SETTINGS = {
     "site_title": "AgriTech Administration",
     "site_header": "AgriTech Administration",
     "site_brand": "AgriTech Administration",
-    "site_logo": "images/logo.png",
-    "site_logo_classes": "img-circle",
     "welcome_sign": "Welcome to AgriTech Administration",
 
-    # Remove "Administration Log"
-    "show_ui_builder": False,
+    # Logo
+    "site_logo": "images/logo.png",
+    "site_logo_classes": "img-circle",
 
     # Sidebar
     "show_sidebar": True,
     "navigation_expanded": True,
 
-    # Search
+    # Disable UI Builder
+    "show_ui_builder": False,
+
+    # Search Models
     "search_model": [
         "auth.User",
         "products.Product",
