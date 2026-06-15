@@ -74,7 +74,7 @@ class SiteSettingsAdmin(admin.ModelAdmin):
             return format_html(
                 '<video width="320" controls loop muted style="border:1px solid #ddd;border-radius:6px;">'
                 '<source src="{}" type="video/mp4">'
-                'Your browser does not support video.'</video>',
+                'Your browser does not support video.</video>',
                 obj.background_video.url,
             )
         if obj.background_image:
@@ -90,7 +90,7 @@ class SiteSettingsAdmin(admin.ModelAdmin):
             return format_html(
                 '<video width="240" controls loop muted style="border:1px solid #ddd;border-radius:6px;">'
                 '<source src="{}" type="video/mp4">'
-                'Your browser does not support video.'</video>',
+                'Your browser does not support video.</video>',
                 obj.watermark_video.url,
             )
         if obj.watermark_image:
