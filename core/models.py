@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from django.core.exceptions import ValidationError
 
@@ -53,7 +54,7 @@ class SiteSettings(models.Model):
     watermark_opacity = models.DecimalField(
         max_digits=3,
         decimal_places=2,
-        default=0.8,
+        default=Decimal('0.80'),
         help_text='Opacity of watermark (0.0 to 1.0)'
     )
 
@@ -75,6 +76,19 @@ class SiteSettings(models.Model):
         return "Website Settings"
 
     def clean(self):
-        # Validate opacity
-        if self.watermark_opacity < 0 or self.watermark_opacity > 1:
-            raise ValidationError('Watermark opacity must be between 0.0 and 1.0')
+        super().clean()
+        opacity = self.watermark_opacity
+        if opacity is None:
+            return
+
+        try:
+            opacity_value = float(opacity)
+        except (TypeError, ValueError):
+            raise ValidationError({
+                'watermark_opacity': 'Watermark opacity must be a number between 0.0 and 1.0.'
+            })
+
+        if opacity_value < 0 or opacity_value > 1:
+            raise ValidationError({
+                'watermark_opacity': 'Watermark opacity must be between 0.0 and 1.0.'
+            })
