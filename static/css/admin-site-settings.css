@@ -1,0 +1,65 @@
+/* Custom admin styles for SiteSettings */
+body.app-core.model-sitesettings .module {
+    border-radius: 0.75rem;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+    background: #ffffff;
+}
+
+body.app-core.model-sitesettings .module h2,
+body.app-core.model-sitesettings .module h2 strong {
+    color: #0f766e;
+}
+
+body.app-core.model-sitesettings .grp-module,
+body.app-core.model-sitesettings .module .inline-related fieldset,
+body.app-core.model-sitesettings .module .fieldset {
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);
+    background: #f8fafc;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+body.app-core.model-sitesettings .grp-module > h2,
+body.app-core.model-sitesettings .module .inline-related fieldset > h2,
+body.app-core.model-sitesettings .module .fieldset > h2 {
+    color: #115e59;
+}
+
+body.app-core.model-sitesettings .form-row {
+    margin-bottom: 1rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.6rem;
+    background: #ffffff;
+}
+
+body.app-core.model-sitesettings .form-row .field-box {
+    margin-top: 0.5rem;
+}
+
+body.app-core.model-sitesettings .submit-row {
+    padding: 1.15rem 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+body.app-core.model-sitesettings .submit-row input,
+body.app-core.model-sitesettings .submit-row a {
+    min-width: 140px;
+}
+
+body.app-core.model-sitesettings .field-background_image,
+body.app-core.model-sitesettings .field-background_video,
+body.app-core.model-sitesettings .field-watermark_image,
+body.app-core.model-sitesettings .field-watermark_video {
+    background: #ffffff;
+}
+
+body.app-core.model-sitesettings .help {
+    display: block;
+    margin-top: 0.35rem;
+    color: #475569;
+    font-size: 0.95rem;
+}

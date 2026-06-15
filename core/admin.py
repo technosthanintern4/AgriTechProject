@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib import admin
-from django.utils.html import format_html
 
 from .models import SiteSettings
 
@@ -17,6 +16,11 @@ class SiteSettingsAdminForm(forms.ModelForm):
                 'step': '0.05',
                 'style': 'max-width: 120px;'
             }),
+        }
+
+    class Media:
+        css = {
+            'all': ('css/admin-site-settings.css',)
         }
 
 
@@ -54,7 +58,7 @@ class SiteSettingsAdmin(admin.ModelAdmin):
     )
     list_display_links = ('__str__',)
     list_per_page = 20
-    list_display_links = ('__str__',)
+    save_on_top = True
 
     def get_background_status(self, obj):
         if obj.background_video and obj.enable_background_video:
