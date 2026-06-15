@@ -1,0 +1,11 @@
+<!-- Background Video Include -->
+{% if site_settings.enable_background_video and site_settings.background_video %}
+    <div class="bg-video-container">
+        <video autoplay muted loop playsinline>
+            <source src="{{ site_settings.background_video.url }}" type="video/mp4">
+            <source src="{{ site_settings.background_video.url }}" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="bg-video-overlay"></div>
+{% endif %}

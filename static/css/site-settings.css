@@ -1,0 +1,149 @@
+/* Site Settings Styles - Watermark and Background Video */
+
+/* Background Video Container */
+.bg-video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.bg-video-container video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+/* Background Video Overlay */
+.bg-video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: -1;
+}
+
+/* Watermark Styles */
+.watermark {
+    position: fixed;
+    z-index: 999;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Watermark Position Classes */
+.watermark.top-left {
+    top: 20px;
+    left: 20px;
+}
+
+.watermark.top-center {
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.watermark.top-right {
+    top: 20px;
+    right: 20px;
+}
+
+.watermark.middle-left {
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+}
+
+.watermark.center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.watermark.middle-right {
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+.watermark.bottom-left {
+    bottom: 20px;
+    left: 20px;
+}
+
+.watermark.bottom-center {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.watermark.bottom-right {
+    bottom: 20px;
+    right: 20px;
+}
+
+/* Watermark Image */
+.watermark img {
+    max-width: 200px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+    display: block;
+}
+
+/* Watermark Video */
+.watermark video {
+    max-width: 200px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+    display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .watermark {
+        opacity: 0.6 !important;
+    }
+
+    .watermark.top-left,
+    .watermark.top-center,
+    .watermark.top-right,
+    .watermark.middle-left,
+    .watermark.center,
+    .watermark.middle-right,
+    .watermark.bottom-left,
+    .watermark.bottom-center,
+    .watermark.bottom-right {
+        top: auto;
+        bottom: 10px;
+        left: 10px;
+        right: auto;
+        transform: none;
+    }
+
+    .watermark img,
+    .watermark video {
+        max-width: 120px;
+        max-height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .watermark img,
+    .watermark video {
+        max-width: 80px;
+        max-height: 80px;
+    }
+}
