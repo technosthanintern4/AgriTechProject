@@ -2,81 +2,177 @@
 
 {% block content %}
 
-{% comment %} Dynamic hero: admin can upload a video or image via SiteSettings. {% endcomment %}
 {% if site_settings and site_settings.enable_background_video and site_settings.background_video %}
-<section class="position-relative" style="min-height:100vh; overflow:hidden;">
-    <video class="w-100 h-100" autoplay muted loop playsinline style="object-fit:cover;">
+
+<section class="position-relative d-flex align-items-center justify-content-center"
+         style="height:100vh; overflow:hidden; margin-top:-56px;">
+
+    <!-- Background Video -->
+    <video autoplay muted loop playsinline
+           class="position-absolute top-0 start-0 w-100 h-100"
+           style="object-fit:cover; z-index:-2;">
+
         <source src="{{ site_settings.background_video.url }}" type="video/mp4">
+
         Your browser does not support the video tag.
+
     </video>
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background:rgba(0,128,0,0.55);"></div>
-    <div class="position-absolute top-50 start-50 translate-middle text-white text-center px-3" style="max-width:900px;">
-        <h1 class="display-3">AgriTech Nursery</h1>
-        <p class="lead">Plants • Plant Doctors • Gardeners • Home Delivery</p>
-        <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
-            <a href="{% url 'product_list' %}" class="btn btn-light btn-lg">Shop Plants</a>
-            <a href="{% url 'doctor_list' %}" class="btn btn-outline-light btn-lg">Book Plant Doctor</a>
-        </div>
+
+    <!-- Green Overlay -->
+    <div class="position-absolute top-0 start-0 w-100 h-100"
+         style="background:rgba(0,128,0,0.55); z-index:-1;">
     </div>
+
+    <!-- Hero Content -->
+    <div class="container text-center text-white px-3">
+
+        <h1 class="display-2">
+            AgriTech Nursery
+        </h1>
+
+        <p class="lead">
+            Plants • Plant Doctors • Gardeners • Home Delivery
+        </p>
+
+        <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+
+            <a href="{% url 'product_list' %}"
+               class="btn btn-light btn-lg">
+
+                Shop Plants
+
+            </a>
+
+            <a href="{% url 'doctor_list' %}"
+               class="btn btn-outline-light btn-lg">
+
+                Book Plant Doctor
+
+            </a>
+
+        </div>
+
+    </div>
+
 </section>
+
 {% else %}
-<section class="bg-success text-white d-flex align-items-center" style="min-height:100vh;">
-    <div class="container text-center py-5">
-        <h1 class="display-3">AgriTech Nursery</h1>
-        <p class="lead">Plants • Plant Doctors • Gardeners • Home Delivery</p>
+
+<section class="bg-success text-white d-flex align-items-center justify-content-center"
+         style="height:100vh; margin-top:-56px;">
+
+    <div class="container text-center">
+
+        <h1 class="display-2">
+            AgriTech Nursery
+        </h1>
+
+        <p class="lead">
+            Plants • Plant Doctors • Gardeners • Home Delivery
+        </p>
+
         <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
-            <a href="{% url 'product_list' %}" class="btn btn-light btn-lg">Shop Plants</a>
-            <a href="{% url 'doctor_list' %}" class="btn btn-outline-light btn-lg">Book Plant Doctor</a>
+
+            <a href="{% url 'product_list' %}"
+               class="btn btn-light btn-lg">
+
+                Shop Plants
+
+            </a>
+
+            <a href="{% url 'doctor_list' %}"
+               class="btn btn-outline-light btn-lg">
+
+                Book Plant Doctor
+
+            </a>
+
         </div>
+
     </div>
+
 </section>
+
 {% endif %}
 
+<!-- Services -->
 <section class="container py-5">
-    <div class="row mb-4 align-items-center">
+
+    <div class="row mb-4">
+
         <div class="col-md-8">
-            <h2 class="display-6">Our Services</h2>
-            <p class="text-muted">Discover how AgriTech Nursery makes gardening easier with plants, expert consultations, and gardener support.</p>
+
+            <h2 class="display-6">
+                Our Services
+            </h2>
+
+            <p class="text-muted">
+                Discover how AgriTech Nursery makes gardening easier with plants,
+                expert consultations, and gardener support.
+            </p>
+
         </div>
-        <!-- Admin status badges removed for public site -->
+
     </div>
 
     <div class="row">
 
-        <div class="col-md-4">
-            <div class="card">
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100">
+
                 <div class="card-body text-center">
+
                     <h4>🌱 Plants</h4>
+
                     <p>
                         Indoor, Outdoor, Flowering Plants and Accessories
                     </p>
+
                 </div>
+
             </div>
+
         </div>
 
-        <div class="col-md-4">
-            <div class="card">
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100">
+
                 <div class="card-body text-center">
+
                     <h4>🩺 Plant Doctors</h4>
+
                     <p>
                         Disease diagnosis and treatment recommendations
                     </p>
+
                 </div>
+
             </div>
+
         </div>
 
-        <div class="col-md-4">
-            <div class="card">
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100">
+
                 <div class="card-body text-center">
+
                     <h4>👨‍🌾 Gardeners</h4>
+
                     <p>
                         Professional gardening and maintenance services
                     </p>
+
                 </div>
+
             </div>
+
         </div>
 
     </div>
+
 </section>
 
 {% endblock %}
