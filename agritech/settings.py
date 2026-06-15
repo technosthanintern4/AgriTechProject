@@ -188,3 +188,61 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# ==========================
+# JAZZMIN ADMIN SETTINGS
+# ==========================
+JAZZMIN_SETTINGS = {
+    "site_title": "AgriTech Administration",
+    "site_header": "AgriTech Administration",
+    "site_brand": "AgriTech Administration",
+    "welcome_sign": "Welcome to AgriTech Administration",
+
+    # Logo (optional)
+    # Put logo at static/images/logo.png
+    "site_logo": "images/logo.png",
+    "site_logo_classes": "img-circle",
+
+    # Search bar
+    "search_model": [
+        "auth.User",
+        "products.Product",
+        "categories.Category",
+        "orders.Order",
+        "consultations.Consultation",
+    ],
+
+    # Top menu links
+    "topmenu_links": [
+        {"name": "Home", "url": "/", "permissions": ["auth.view_user"]},
+        {"model": "auth.User"},
+    ],
+
+    # User menu links
+    "usermenu_links": [
+        {"name": "Visit Site", "url": "/", "new_window": True},
+    ],
+
+    # Sidebar
+    "show_sidebar": True,
+    "navigation_expanded": True,
+
+    # Icons
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+
+        "products.Product": "fas fa-seedling",
+        "categories.Category": "fas fa-list",
+        "orders.Order": "fas fa-shopping-cart",
+        "consultations.Consultation": "fas fa-stethoscope",
+        "doctors.Doctor": "fas fa-user-md",
+        "gardeners.Gardener": "fas fa-leaf",
+        "reviews.Review": "fas fa-star",
+        "wishlist.Wishlist": "fas fa-heart",
+    },
+
+    # Theme
+    "theme": "darkly",
+}
