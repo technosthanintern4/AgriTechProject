@@ -1,6 +1,24 @@
 from decimal import Decimal
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.core.exceptions import ValidationError
+
+
+def get_video_storage():
+    try:
+        cloud_name = getattr(settings, 'CLOUDINARY_CLOUD_NAME', None)
+        api_key = getattr(settings, 'CLOUDINARY_API_KEY', None)
+        api_secret = getattr(settings, 'CLOUDINARY_API_SECRET', None)
+        cloudinary_url = getattr(settings, 'CLOUDINARY_URL', None)
+    except Exception:
+        return FileSystemStorage()
+
+    if cloudinary_url or (cloud_name and api_key and api_secret):
+        from cloudinary_storage.storage import VideoMediaCloudinaryStorage
+        return VideoMediaCloudinaryStorage()
+
+    return FileSystemStorage()
 
 
 class SiteSettings(models.Model):
@@ -14,6 +32,7 @@ class SiteSettings(models.Model):
 
     background_video = models.FileField(
         upload_to='backgrounds/',
+        storage=get_video_storage(),
         blank=True,
         null=True,
         help_text='Upload a background video (mp4, webm). If present, video will be shown instead of image.'
@@ -29,6 +48,7 @@ class SiteSettings(models.Model):
 
     watermark_video = models.FileField(
         upload_to='watermarks/',
+        storage=get_video_storage(),
         blank=True,
         null=True,
         help_text='Upload a video as watermark (mp4, webm). If both image and video are present, video takes priority.'
