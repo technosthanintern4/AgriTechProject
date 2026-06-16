@@ -19,3 +19,10 @@ class Service(models.Model):
 
     def __str__(self):
         return self.title
+
+    @classmethod
+    def active_navbar_services(cls):
+        return cls.objects.filter(
+            is_active=True,
+            show_in_navbar=True
+        ).order_by('title')

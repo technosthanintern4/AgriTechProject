@@ -3,10 +3,7 @@ from services.models import Service
 
 
 def home(request):
-    services = Service.objects.filter(
-        is_active=True,
-        show_in_navbar=True
-    )
+    services = Service.active_navbar_services()
 
     return render(
         request,
