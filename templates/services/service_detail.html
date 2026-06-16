@@ -10,9 +10,8 @@
                 <img src="{{ service.image.url }}" class="img-fluid rounded mb-4" alt="{{ service.title }}">
             {% endif %}
             <p class="lead">{{ service.description }}</p>
-            <a href="{% url 'service_list' %}" class="btn btn-secondary mt-3">Back to Services</a>
 
-            <a href="{% url 'book_service' service.slug %}" class="btn btn-success mt-3 ms-2">Book Consultation</a>
+            <a href="{% url 'book_service' service.slug %}" class="btn btn-success mt-3">Book Consultation</a>
         </div>
     </div>
 </div>
