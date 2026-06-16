@@ -29,10 +29,13 @@
                 {{ service.description }}
             </p>
 
-            <a href="{% url 'service_list' %}"
-               class="btn btn-success">
-                Back to Services
-            </a>
+            <div class="mt-4">
+                <a href="{% url 'book_consultation' %}"
+                   class="btn btn-success btn-lg d-inline-flex align-items-center shadow-sm">
+                    <i class="fa-solid fa-calendar-check me-2"></i>
+                    Book Consultation
+                </a>
+            </div>
 
         </div>
 
