@@ -16,9 +16,12 @@
 
             <div class="card h-100 shadow">
 
-                <img src="{{ doctor.image.url }}"
-                     class="card-img-top"
-                     style="height:300px;object-fit:cover;">
+                {% if doctor.image %}
+               <img src="{{ doctor.image.url }}"
+               class="card-img-top"
+               style="height:300px;object-fit:cover;">
+               {% endif %}
+
 
                 <div class="card-body text-center">
 
