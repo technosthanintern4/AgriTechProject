@@ -17,7 +17,13 @@
                     </h2>
 
                     <h4 class="text-success mb-4">
-                        Doctor: {{ doctor.name }}
+                        {% if doctor %}
+                            Doctor: {{ doctor.name }}
+                        {% elif service %}
+                            Service: {{ service.title }}
+                        {% else %}
+                            Consultation
+                        {% endif %}
                     </h4>
 
                     {% if form.errors %}

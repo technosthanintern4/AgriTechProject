@@ -12,19 +12,17 @@ from services.models import Service
 
 
 @login_required
-def book_consultation(request, doctor_id):
+def book_consultation(request, doctor_id=None, service_slug=None):
 
-    # support booking by doctor id or by service slug
+    # support booking by doctor id (doctor_id) or by service slug (service_slug)
     doctor = None
     service = None
 
-    # doctor_id may be an int (from doctor booking) or a slug string passed via URL name 'book_service'
-    try:
-        # if doctor_id is int (normal case), fetch doctor
+    if doctor_id:
+        # doctor_id route uses an integer id
         doctor = get_object_or_404(Doctor, id=doctor_id)
-    except Exception:
-        # otherwise try to find service by slug
-        service = get_object_or_404(Service, slug=doctor_id)
+    elif service_slug:
+        service = get_object_or_404(Service, slug=service_slug)
 
     if request.method == 'POST':
 
