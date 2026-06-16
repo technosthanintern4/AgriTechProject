@@ -8,6 +8,7 @@ class Service(models.Model):
     description = models.TextField()
     image = CloudinaryField('image', blank=True, null=True)
     is_active = models.BooleanField(default=True)
+    show_in_navbar = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

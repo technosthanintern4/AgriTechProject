@@ -8,8 +8,9 @@ class ServiceAdmin(admin.ModelAdmin):
         'title',
         'slug',
         'is_active',
+        'show_in_navbar',
         'created_at'
     ]
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ['title', 'description']
-    list_filter = ['is_active']
+    list_filter = ['is_active', 'show_in_navbar']
