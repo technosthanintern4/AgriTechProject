@@ -1,66 +1,16 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
 
-<div class="container py-5">
+<div class="container mt-5">
 
-    <h2 class="text-center mb-5">
-        Plant Doctors
-    </h2>
+    <h1>Doctors</h1>
 
-    <div class="row">
+    {% for doctor in doctors %}
 
-        {% for doctor in doctors %}
+        <h3>{{ doctor.name }}</h3>
 
-        <div class="col-md-4 mb-4">
-
-            <div class="card h-100 shadow">
-
-                {% if doctor.image %}
-               <img src="{{ doctor.image.url }}"
-               class="card-img-top"
-               style="height:300px;object-fit:cover;">
-               {% endif %}
-
-
-                <div class="card-body text-center">
-
-                    <h4>{{ doctor.name }}</h4>
-
-                    <p>
-                        {{ doctor.specialization }}
-                    </p>
-
-                    <p>
-                        Experience:
-                        {{ doctor.experience }} Years
-                    </p>
-
-                    <h5 class="text-success fw-bold mb-3">
-                        Consultation Fee: ₹{{ doctor.fees }}
-                    </h5>
-
-                    <a href="{% url 'book_consultation' doctor.id %}"
-                       class="btn btn-success">
-
-                        Book Consultation
-
-                    </a>
-
-                    <a href="{% url 'doctor_detail' doctor.id %}"
-                       class="btn btn-primary">
-                        Details
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {% endfor %}
-
-    </div>
+    {% endfor %}
 
 </div>
 
