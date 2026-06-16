@@ -234,12 +234,20 @@ JAZZMIN_SETTINGS = {
 
     # Top Menu
     "topmenu_links": [
-        {"name": "Website", "url": "/", "new_window": True},
+        {
+            "name": "Visit Website",
+            "url": "/",
+            "new_window": True,
+        },
     ],
 
     # User Menu
     "usermenu_links": [
-        {"name": "Visit Website", "url": "/", "new_window": True},
+        {
+            "name": "Visit Website",
+            "url": "/",
+            "new_window": True,
+        },
     ],
 
     # Icons
@@ -257,6 +265,9 @@ JAZZMIN_SETTINGS = {
         "reviews.Review": "fas fa-star",
         "wishlist.Wishlist": "fas fa-heart",
     },
+
+    # Remove extra links
+    "show_ui_builder": False,
 
     # Theme
     "theme": "darkly",

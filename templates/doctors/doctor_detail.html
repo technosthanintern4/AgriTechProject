@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2>{{ doctor.name }}</h2>
+
+    {% if doctor.image %}
+        <img src="{{ doctor.image.url }}" width="250" class="mb-3">
+    {% endif %}
+
+    <p><strong>Specialization:</strong> {{ doctor.specialization }}</p>
+
+    <p><strong>Experience:</strong> {{ doctor.experience }}</p>
+
+    <p><strong>Qualification:</strong> {{ doctor.qualification }}</p>
+
+    <p><strong>Email:</strong> {{ doctor.email }}</p>
+
+    <p><strong>Phone:</strong> {{ doctor.phone }}</p>
+
+    <p><strong>Description:</strong> {{ doctor.description }}</p>
+
+    <a href="{% url 'doctor_list' %}" class="btn btn-secondary">
+        Back
+    </a>
+
+    <a href="{% url 'book_consultation' doctor.id %}" class="btn btn-success">
+        Book Consultation
+    </a>
+
+</div>
+
+{% endblock %}
