@@ -61,17 +61,6 @@
                             </a>
                         </li>
 
-                        <li>
-                            <a class="dropdown-item"
-                               href="/consultations/">
-
-                                Consultation Services
-
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider"></li>
-
                         {% for service in navbar_services %}
                         <li>
                             <a class="dropdown-item"
@@ -79,24 +68,7 @@
                                 {{ service.title }}
                             </a>
                         </li>
-                        {% empty %}
-                        <li>
-                            <a class="dropdown-item disabled" href="#">
-                                No services available
-                            </a>
-                        </li>
                         {% endfor %}
-
-                        <li><hr class="dropdown-divider"></li>
-
-                        <li>
-                            <a class="dropdown-item"
-                               href="{% url 'service_list' %}">
-
-                                All Services
-
-                            </a>
-                        </li>
 
                     </ul>
 
