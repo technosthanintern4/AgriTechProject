@@ -147,3 +147,12 @@
         max-height: 80px;
     }
 }
+.service-card{
+    transition:0.3s;
+    border-radius:15px;
+}
+
+.service-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 10px 30px rgba(0,0,0,.2)!important;
+}

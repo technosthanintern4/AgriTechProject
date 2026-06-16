@@ -96,42 +96,76 @@
 {% endif %}
 
 <!-- Services -->
-<section class="container py-5">
+<section class="py-5 bg-light">
 
-    <div class="row mb-4">
+    <div class="container">
 
-        <div class="col-md-8">
+        <div class="text-center mb-5">
 
-            <h2 class="display-6">
+            <h2 class="display-4">
                 Our Services
             </h2>
 
-            <p class="text-muted">
+            <p class="lead">
                 Discover how AgriTech Nursery makes gardening easier with plants,
                 expert consultations, and gardener support.
             </p>
 
         </div>
 
-    </div>
+        <div class="row">
 
-    <div class="row">
-        {% for service in services %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
+            {% for service in services %}
+
+            <div class="col-lg-4 col-md-6 col-12 mb-4">
+
+                <div class="card h-100 shadow service-card border-0">
+
+                    {% if service.image %}
+                    <img
+                        src="{{ service.image.url }}"
+                        class="card-img-top"
+                        style="height:250px;object-fit:cover;"
+                    >
+                    {% endif %}
+
                     <div class="card-body text-center">
-                        {% if service.image %}
-                            <img src="{{ service.image.url }}" class="img-fluid mb-3" style="max-height:100px;" alt="{{ service.title }}">
-                        {% endif %}
-                        <h4>{{ service.title }}</h4>
-                        <p>{{ service.description|truncatechars:80 }}</p>
-                        <a href="{% url 'service_detail' service.slug %}" class="btn btn-sm btn-outline-light mt-2">View</a>
+
+                        <h4 class="fw-bold">
+                            {{ service.title }}
+                        </h4>
+
+                        <p class="text-muted">
+                            {{ service.description|truncatechars:100 }}
+                        </p>
+
+                        <a
+                            href="{% url 'service_detail' service.slug %}"
+                            class="btn btn-success"
+                        >
+                            View Details
+                        </a>
+
                     </div>
+
                 </div>
+
             </div>
-        {% endfor %}
+
+            {% empty %}
+
+            <div class="col-12 text-center">
+
+                <h5>
+                    No services available.
+                </h5>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
     </div>
 
 </section>
-
-{% endblock %}
