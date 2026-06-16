@@ -10,7 +10,7 @@ def home(request):
 
     return render(
         request,
-        "home.html",
+        "core/home.html",
         {
             "services": services
         }
