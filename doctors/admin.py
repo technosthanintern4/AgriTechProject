@@ -41,7 +41,7 @@ class DoctorAdmin(admin.ModelAdmin):
 
     image_tag.short_description = 'Photo'
 
-    def actions(self, obj):
+    def admin_actions(self, obj):
         detail_url = f"/doctors/{obj.id}/"
         book_url = f"/consultations/book/{obj.id}/"
         return format_html(
@@ -51,4 +51,4 @@ class DoctorAdmin(admin.ModelAdmin):
             book_url
         )
 
-    actions.short_description = 'Actions'
+    admin_actions.short_description = 'Actions'
