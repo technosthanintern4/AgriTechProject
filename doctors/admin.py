@@ -11,8 +11,7 @@ class DoctorAdmin(admin.ModelAdmin):
         'specialization',
         'experience',
         'fees',
-        'is_available',
-        'actions'
+        'is_available'
     ]
 
     readonly_fields = ('image_tag',)
