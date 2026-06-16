@@ -20,6 +20,7 @@ class DoctorAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
+                'image',
                 'image_tag',
                 'name',
                 'specialization',
