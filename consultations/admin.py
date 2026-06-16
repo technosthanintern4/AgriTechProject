@@ -93,7 +93,8 @@ class ConsultationAdmin(admin.ModelAdmin):
 
     search_fields = [
         'user__username',
-        'doctor__name'
+        'doctor__name',
+        'service__title'
     ]
 
     fieldsets = (
@@ -108,6 +109,20 @@ class ConsultationAdmin(admin.ModelAdmin):
                     'appointment_date',
                     'status'
                 )
+            }
+        ),
+
+        (
+            'Service Details',
+            {
+                'fields': (
+                    'animal_type',
+                    'animal_name',
+                    'description',
+                    'area_size',
+                    'duration'
+                ),
+                'classes': ('collapse',)
             }
         ),
 

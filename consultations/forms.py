@@ -8,7 +8,12 @@ class ConsultationForm(forms.ModelForm):
         model = Consultation
 
         fields = [
-            'appointment_date'
+            'appointment_date',
+            'animal_type',
+            'animal_name',
+            'description',
+            'area_size',
+            'duration',
         ]
 
         widgets = {
@@ -16,6 +21,37 @@ class ConsultationForm(forms.ModelForm):
                 attrs={
                     'type': 'date',
                     'class': 'form-control'
+                }
+            ),
+            'animal_type': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'e.g., Dog, Cat, Goat, Cow'
+                }
+            ),
+            'animal_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Name of the pet/animal'
+                }
+            ),
+            'description': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'rows': 4,
+                    'placeholder': 'Describe your issue or service requirement in detail'
+                }
+            ),
+            'area_size': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'e.g., 1000 sqft, 5 acres'
+                }
+            ),
+            'duration': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'e.g., 3 months, 1 year'
                 }
             ),
         }

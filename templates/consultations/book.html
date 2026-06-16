@@ -50,14 +50,66 @@
                                 Select Appointment Date
                             </label>
 
-                            <input type="date"
-                                   name="appointment_date"
-                                   class="form-control"
-                                   min=""
-                                   max=""
-                                   id="appointment_date">
+                            {{ form.appointment_date }}
 
                         </div>
+
+                        {% if service %}
+                        <!-- Service-Specific Details -->
+
+                        <!-- Animal Type -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                Pet/Animal Type
+                            </label>
+                            {{ form.animal_type }}
+                            <small class="form-text text-muted">
+                                e.g., Dog, Cat, Goat, Cow
+                            </small>
+                        </div>
+
+                        <!-- Animal Name -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                Pet/Animal Name
+                            </label>
+                            {{ form.animal_name }}
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                Describe Your Issue or Service Needed
+                            </label>
+                            {{ form.description }}
+                            <small class="form-text text-muted">
+                                Please provide detailed information about your pet's health or gardening needs
+                            </small>
+                        </div>
+
+                        <!-- Area Size (for gardening services) -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                Area Size (if applicable)
+                            </label>
+                            {{ form.area_size }}
+                            <small class="form-text text-muted">
+                                e.g., 1000 sqft, 5 acres
+                            </small>
+                        </div>
+
+                        <!-- Duration (for contract gardening) -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                Service Duration (if applicable)
+                            </label>
+                            {{ form.duration }}
+                            <small class="form-text text-muted">
+                                e.g., 3 months, 1 year
+                            </small>
+                        </div>
+
+                        {% endif %}
 
                         <button type="submit"
                                 class="btn btn-success">

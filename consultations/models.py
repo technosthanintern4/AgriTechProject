@@ -67,6 +67,41 @@ class Consultation(models.Model):
         null=True
     )
 
+    # Service-specific details
+    animal_type = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Type of pet/animal (e.g., Dog, Cat, Goat, Cow)"
+    )
+
+    animal_name = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Name of the pet/animal"
+    )
+
+    description = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Detailed description of issue or service needed"
+    )
+
+    area_size = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Area size for gardening services (e.g., 1000 sqft)"
+    )
+
+    duration = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Duration for contract gardening (e.g., 3 months, 1 year)"
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True
     )
