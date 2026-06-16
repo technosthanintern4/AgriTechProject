@@ -2,33 +2,69 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-5">
 
-    <h2>{{ doctor.name }}</h2>
+    <div class="row">
 
-    {% if doctor.image %}
-        <img src="{{ doctor.image.url }}" width="250" class="mb-3">
-    {% endif %}
+        <div class="col-md-4">
 
-    <p><strong>Specialization:</strong> {{ doctor.specialization }}</p>
+            {% if doctor.image %}
+                <img src="{{ doctor.image.url }}"
+                     class="img-fluid rounded shadow">
+            {% endif %}
 
-    <p><strong>Experience:</strong> {{ doctor.experience }}</p>
+        </div>
 
-    <p><strong>Qualification:</strong> {{ doctor.qualification }}</p>
+        <div class="col-md-8">
 
-    <p><strong>Email:</strong> {{ doctor.email }}</p>
+            <h2>{{ doctor.name }}</h2>
 
-    <p><strong>Phone:</strong> {{ doctor.phone }}</p>
+            <hr>
 
-    <p><strong>Description:</strong> {{ doctor.description }}</p>
+            <p>
+                <strong>Specialization:</strong>
+                {{ doctor.specialization }}
+            </p>
 
-    <a href="{% url 'doctor_list' %}" class="btn btn-secondary">
-        Back
-    </a>
+            <p>
+                <strong>Experience:</strong>
+                {{ doctor.experience }} Years
+            </p>
 
-    <a href="{% url 'book_consultation' doctor.id %}" class="btn btn-success">
-        Book Consultation
-    </a>
+            <p>
+                <strong>Consultation Fee:</strong>
+                ₹{{ doctor.fees }}
+            </p>
+
+            <p>
+                <strong>Availability:</strong>
+
+                {% if doctor.is_available %}
+                    Available
+                {% else %}
+                    Not Available
+                {% endif %}
+            </p>
+
+            <h5 class="mt-4">Doctor Bio</h5>
+
+            <p>
+                {{ doctor.bio }}
+            </p>
+
+            <a href="{% url 'book_consultation' doctor.id %}"
+               class="btn btn-success">
+                Book Consultation
+            </a>
+
+            <a href="{% url 'doctor_list' %}"
+               class="btn btn-secondary">
+                Back
+            </a>
+
+        </div>
+
+    </div>
 
 </div>
 
