@@ -116,61 +116,20 @@
     </div>
 
     <div class="row">
-
-        <div class="col-md-4 mb-4">
-
-            <div class="card h-100">
-
-                <div class="card-body text-center">
-
-                    <h4>🌱 Plants</h4>
-
-                    <p>
-                        Indoor, Outdoor, Flowering Plants and Accessories
-                    </p>
-
+        {% for service in services %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        {% if service.image %}
+                            <img src="{{ service.image.url }}" class="img-fluid mb-3" style="max-height:100px;" alt="{{ service.title }}">
+                        {% endif %}
+                        <h4>{{ service.title }}</h4>
+                        <p>{{ service.description|truncatechars:80 }}</p>
+                        <a href="{% url 'service_detail' service.slug %}" class="btn btn-sm btn-outline-light mt-2">View</a>
+                    </div>
                 </div>
-
             </div>
-
-        </div>
-
-        <div class="col-md-4 mb-4">
-
-            <div class="card h-100">
-
-                <div class="card-body text-center">
-
-                    <h4>🩺 Plant Doctors</h4>
-
-                    <p>
-                        Disease diagnosis and treatment recommendations
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4 mb-4">
-
-            <div class="card h-100">
-
-                <div class="card-body text-center">
-
-                    <h4>👨‍🌾 Gardeners</h4>
-
-                    <p>
-                        Professional gardening and maintenance services
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
+        {% endfor %}
     </div>
 
 </section>

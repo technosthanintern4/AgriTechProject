@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>{{ service.title }}</h1>
+            {% if service.image %}
+                <img src="{{ service.image.url }}" class="img-fluid rounded mb-4" alt="{{ service.title }}">
+            {% endif %}
+            <p class="lead">{{ service.description }}</p>
+            <a href="{% url 'service_list' %}" class="btn btn-secondary mt-3">Back to Services</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
