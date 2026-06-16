@@ -8,7 +8,27 @@
 
     {% for doctor in doctors %}
 
-        <h3>{{ doctor.name }}</h3>
+        <div class="row mb-4 py-3 border-bottom">
+
+            <div class="col-md-2">
+                {% if doctor.image %}
+                    <img src="{{ doctor.image.url }}" class="img-fluid rounded">
+                {% endif %}
+            </div>
+
+            <div class="col-md-7">
+                <h3>{{ doctor.name }}</h3>
+                <p class="mb-1"><strong>Specialization:</strong> {{ doctor.specialization }}</p>
+                <p class="mb-1"><strong>Experience:</strong> {{ doctor.experience }} years</p>
+                <p class="mb-1"><strong>Fee:</strong> ₹{{ doctor.fees }}</p>
+            </div>
+
+            <div class="col-md-3 text-end">
+                <a href="{% url 'doctor_detail' doctor.id %}" class="btn btn-outline-primary mb-2">Details</a>
+                <a href="{% url 'book_consultation' doctor.id %}" class="btn btn-success mb-2">Book Consultation</a>
+            </div>
+
+        </div>
 
     {% endfor %}
 
