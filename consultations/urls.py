@@ -14,6 +14,12 @@ urlpatterns = [
     ),
 
     path(
+        'book/service/<slug:service_slug>/',
+        book_consultation,
+        name='book_service'
+    ),
+
+    path(
         'success/',
         consultation_success,
         name='consultation_success'

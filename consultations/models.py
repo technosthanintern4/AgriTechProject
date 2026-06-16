@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from doctors.models import Doctor
+from services.models import Service
 
 
 class Consultation(models.Model):
@@ -25,7 +26,17 @@ class Consultation(models.Model):
 
     doctor = models.ForeignKey(
         Doctor,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+
+    service = models.ForeignKey(
+        Service,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name='consultations'
     )
 
     appointment_date = models.DateField()
@@ -61,9 +72,10 @@ class Consultation(models.Model):
     )
 
     def __str__(self):
+        target = self.doctor.name if self.doctor else (self.service.title if self.service else 'N/A')
         return (
             f"{self.user.username} - "
-            f"{self.doctor.name} - "
+            f"{target} - "
             f"{self.appointment_date}"
         )
 

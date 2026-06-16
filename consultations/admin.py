@@ -77,6 +77,7 @@ class ConsultationAdmin(admin.ModelAdmin):
     list_display = [
         'user',
         'doctor',
+        'service',
         'appointment_date',
         'status',
         'confirmation_method',
@@ -103,6 +104,7 @@ class ConsultationAdmin(admin.ModelAdmin):
                 'fields': (
                     'user',
                     'doctor',
+                    'service',
                     'appointment_date',
                     'status'
                 )
