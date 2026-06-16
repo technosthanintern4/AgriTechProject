@@ -20,7 +20,6 @@ class DoctorAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'image',
-                'image_tag',
                 'name',
                 'specialization',
                 'experience',
