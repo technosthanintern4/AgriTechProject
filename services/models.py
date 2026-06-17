@@ -8,7 +8,6 @@ class Service(models.Model):
     description = models.TextField()
     image = CloudinaryField('image', blank=True, null=True)
     is_active = models.BooleanField(default=True)
-    show_in_navbar = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -22,7 +21,10 @@ class Service(models.Model):
 
     @classmethod
     def active_navbar_services(cls):
+        """
+        Returns active services that should be displayed in navbar.
+        Currently returns all active services.
+        """
         return cls.objects.filter(
-            is_active=True,
-            show_in_navbar=True
+            is_active=True
         ).order_by('title')

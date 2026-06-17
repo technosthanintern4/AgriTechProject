@@ -107,44 +107,25 @@ CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY")
 CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET")
 CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
 
+# Configure cloudinary
 if CLOUDINARY_URL:
     cloudinary.config(cloudinary_url=CLOUDINARY_URL)
-
-    DEFAULT_STORAGE_BACKEND = (
-        "cloudinary_storage.storage.MediaCloudinaryStorage"
-    )
-
-    CLOUDINARY_STORAGE = {
-        "CLOUDINARY_URL": CLOUDINARY_URL,
-    }
-
-elif (
-    CLOUDINARY_CLOUD_NAME
-    and CLOUDINARY_API_KEY
-    and CLOUDINARY_API_SECRET
-):
+    DEFAULT_STORAGE_BACKEND = "cloudinary_storage.storage.MediaCloudinaryStorage"
+    CLOUDINARY_STORAGE = {}  # cloudinary_storage will read from CLOUDINARY_URL env var
+    
+elif CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
     cloudinary.config(
         cloud_name=CLOUDINARY_CLOUD_NAME,
         api_key=CLOUDINARY_API_KEY,
         api_secret=CLOUDINARY_API_SECRET,
     )
-
-    CLOUDINARY_STORAGE = {
-        "CLOUD_NAME": CLOUDINARY_CLOUD_NAME,
-        "API_KEY": CLOUDINARY_API_KEY,
-        "API_SECRET": CLOUDINARY_API_SECRET,
-    }
-
-    DEFAULT_STORAGE_BACKEND = (
-        "cloudinary_storage.storage.MediaCloudinaryStorage"
-    )
-
-else:
+    DEFAULT_STORAGE_BACKEND = "cloudinary_storage.storage.MediaCloudinaryStorage"
     CLOUDINARY_STORAGE = {}
-
-    DEFAULT_STORAGE_BACKEND = (
-        "django.core.files.storage.FileSystemStorage"
-    )
+    
+else:
+    # Fallback to local file storage
+    DEFAULT_STORAGE_BACKEND = "django.core.files.storage.FileSystemStorage"
+    CLOUDINARY_STORAGE = {}
 
 # STORAGES
 STORAGES = {
