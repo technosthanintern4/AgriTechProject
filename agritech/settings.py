@@ -85,6 +85,8 @@ TEMPLATES = [
 
                 'core.context_processors.site_settings',
                 'services.context_processors.active_services',
+                'products.context_processors.product_categories',
+                'products.context_processors.navbar_categories',
             ],
         },
     },

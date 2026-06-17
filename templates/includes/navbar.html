@@ -87,33 +87,29 @@
                     </a>
 
                     <ul class="dropdown-menu shadow">
+                        
+                      <li>
+                        <a class="dropdown-item"
+                         href="{% url 'category_products' category.slug %}">
 
-                        <li>
-                            <a class="dropdown-item"
-                               href="/products/">
+                         {{ category.name }}
 
-                                Plants
+                        </a>
+                      </li>
 
-                            </a>
-                        </li>
+                       {% endfor %}
 
-                        <li>
-                            <a class="dropdown-item"
-                               href="/products/">
+                      <li><hr class="dropdown-divider"></li>
 
-                                Accessories
+                    <li>
+                      <a class="dropdown-item fw-bold"
+                      href="{% url 'product_list' %}">
 
-                            </a>
-                        </li>
+                      All Products
 
-                        <li>
-                            <a class="dropdown-item"
-                               href="/products/">
-
-                                All Products
-
-                            </a>
-                        </li>
+                      </a>
+                    </li>
+                    
 
                     </ul>
 
