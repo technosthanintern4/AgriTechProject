@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import ProductCategory, Product
 
-
-@admin.register(ProductCategory)
+admin.site.register(ProductCategory)
+admin.site.register(Product)
 class ProductCategoryAdmin(admin.ModelAdmin):
 
     list_display = (
@@ -31,7 +31,7 @@ class ProductCategoryAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Product)
+
 class ProductAdmin(admin.ModelAdmin):
 
     list_display = (
