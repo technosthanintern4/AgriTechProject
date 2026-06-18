@@ -4,56 +4,60 @@
 
 <div class="container py-5">
 
-<h2 class="text-center mb-5">
+    <h2 class="text-center mb-5">
+        {{ category.name }}
+    </h2>
 
-{{ category.name }}
+    <div class="row">
 
-</h2>
+        {% for product in products %}
 
-<div class="row">
+        <div class="col-lg-3 col-md-6 mb-4">
 
-{% for product in products %}
+            <div class="card shadow h-100">
 
-<div class="col-lg-3 col-md-6 mb-4">
+                {% if product.image %}
+                    <img src="{{ product.image }}"
+                         class="card-img-top"
+                         style="height:250px;object-fit:cover;">
+                {% else %}
+                    <img src="https://via.placeholder.com/500x250"
+                         class="card-img-top"
+                         style="height:250px;object-fit:cover;">
+                {% endif %}
 
-<div class="card shadow h-100">
+                <div class="card-body">
 
-{% if product.image %}
-<img src="{{ product.image.url }}"
-class="card-img-top"
-style="height:250px;object-fit:cover;">
-{% endif %}
+                    <h5>
+                        {{ product.name }}
+                    </h5>
 
-<div class="card-body">
+                    <h5 class="text-success">
+                        ₹{{ product.price }}
+                    </h5>
 
-<h5>
+                    <a href="{% url 'product_detail' product.slug %}"
+                       class="btn btn-success">
 
-{{ product.name }}
+                        View Details
 
-</h5>
+                    </a>
 
-<h5 class="text-success">
+                </div>
 
-₹{{ product.price }}
+            </div>
 
-</h5>
+        </div>
 
-<a href="{% url 'product_detail' product.slug %}"
-class="btn btn-success">
+        {% empty %}
 
-View Details
+        <div class="col-12">
+            <p>No products found.</p>
+        </div>
 
-</a>
+        {% endfor %}
 
-</div>
-
-</div>
-
-</div>
-
-{% endfor %}
-
-</div>
+    </div>
 
 </div>
 
