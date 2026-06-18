@@ -6,13 +6,20 @@
 
     <div class="row">
 
+        <!-- Product Image -->
         <div class="col-md-6">
 
+            {% if product.image %}
             <img src="{{ product.image.url }}"
-                 class="img-fluid">
+                 class="img-fluid rounded shadow">
+            {% else %}
+            <img src="https://via.placeholder.com/500x500"
+                 class="img-fluid rounded shadow">
+            {% endif %}
 
         </div>
 
+        <!-- Product Information -->
         <div class="col-md-6">
 
             <h2>
@@ -28,18 +35,21 @@
             </p>
 
             <p>
-                Stock: {{ product.stock }}
+                <strong>Stock:</strong> {{ product.stock }}
             </p>
-            <a href="#"class="btn btn-success btn-lg">
-               Add To Cart
+
+            <a href="#"
+               class="btn btn-success btn-lg">
+                Add To Cart
             </a>
 
-            <a href="{% url 'add_to_wishlist' product.id %}"class="btn btn-outline-danger btn-lg">
+            <a href="{% url 'add_to_wishlist' product.id %}"
+               class="btn btn-outline-danger btn-lg">
 
-               ❤️ Wishlist
+                ❤️ Wishlist
 
-            </a>    
-            
+            </a>
+
         </div>
 
     </div>
@@ -48,31 +58,40 @@
 
     <h3>Reviews</h3>
 
-    {% for review in product.reviews.all %}
+    {% if product.reviews.all %}
 
-    <div class="card mb-3">
+        {% for review in product.reviews.all %}
 
-        <div class="card-body">
+        <div class="card mb-3">
 
-            <strong>
-                {{ review.user.username }}
-            </strong>
+            <div class="card-body">
 
-            ⭐ {{ review.rating }}/5
+                <strong>
+                    {{ review.user.username }}
+                </strong>
 
-            <p>
-                {{ review.comment }}
-            </p>
+                ⭐ {{ review.rating }}/5
+
+                <p>
+                    {{ review.comment }}
+                </p>
+
+            </div>
 
         </div>
 
-    </div>
+        {% empty %}
 
-    {% empty %}
+        <p>No reviews yet.</p>
 
-    <p>No reviews yet.</p>
+        {% endfor %}
 
-    {% endfor %}
+    {% else %}
+
+        <p>No reviews yet.</p>
+
+    {% endif %}
+
 
     {% if user.is_authenticated %}
 
