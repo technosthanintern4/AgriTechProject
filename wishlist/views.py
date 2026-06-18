@@ -19,7 +19,7 @@ def add_to_wishlist(request, product_id):
 
     return redirect(
         'product_detail',
-        pk=product.id
+        slug=product.slug
     )
 
 
