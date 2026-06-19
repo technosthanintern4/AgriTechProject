@@ -39,7 +39,7 @@ class Service(models.Model):
     category = models.ForeignKey(
         ServiceCategory,
         on_delete=models.CASCADE,
-        related_name='services'
+        related_name='services',
         null=True,
         blank=True
     )   
