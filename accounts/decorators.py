@@ -19,10 +19,13 @@ def role_required(*allowed_roles):
         @wraps(view_func)
         @login_required
         def wrapper(request, *args, **kwargs):
-            if hasattr(request.user, 'userprofile'):
-                user_role = request.user.userprofile.user_type
-                if user_role in allowed_roles:
-                    return view_func(request, *args, **kwargs)
+            # Prefer user.role (custom User). Fallback to userprofile.user_type.
+            user_role = getattr(request.user, 'role', None)
+            if not user_role and hasattr(request.user, 'userprofile'):
+                user_role = getattr(request.user.userprofile, 'user_type', None)
+
+            if user_role in allowed_roles:
+                return view_func(request, *args, **kwargs)
             
             return HttpResponseForbidden(
                 "You don't have permission to access this page."

@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from django.db.models import Sum
 
@@ -21,6 +21,9 @@ from gardeners.models import GardenerBooking
 @login_required
 def dashboard_home(request):
     return redirect(get_role_dashboard_redirect(request.user))
+
+
+User = get_user_model()
 
 
 def get_base_dashboard_context():

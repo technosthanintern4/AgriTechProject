@@ -24,17 +24,26 @@ def user_context(request):
     }
     
     if request.user.is_authenticated:
+        # Prefer direct user.role (custom User). Fallback to profile.
+        role = getattr(request.user, 'role', None)
+        profile = None
         if hasattr(request.user, 'userprofile'):
             profile = request.user.userprofile
             context['user_profile'] = profile
-            context['user_role'] = profile.user_type
+
+        if role:
+            context['user_role'] = role
             context['user_role_display'] = get_user_role_display(request.user)
-            
-            # Set role flags
-            context[f'is_{profile.user_type}'] = True
-            context['is_staff'] = request.user.is_staff
-            context['is_super_admin'] = request.user.is_superuser
-            context['is_admin'] = request.user.is_staff or request.user.is_superuser
+            context[f'is_{role}'] = True
+        elif profile:
+            context['user_role'] = getattr(profile, 'user_type', None)
+            context['user_role_display'] = get_user_role_display(request.user)
+            if context['user_role']:
+                context[f'is_{context["user_role"]}'] = True
+
+        context['is_staff'] = request.user.is_staff
+        context['is_super_admin'] = request.user.is_superuser
+        context['is_admin'] = request.user.is_staff or request.user.is_superuser
     
     return context
 

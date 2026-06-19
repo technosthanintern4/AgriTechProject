@@ -113,10 +113,13 @@ def create_roles_and_permissions():
 
 def get_user_role_display(user):
     """Get user's role as display name"""
+    # Prefer direct user.role (new custom User). Fallback to profile.user_type.
+    if hasattr(user, 'role') and user.role:
+        return dict((k, v['display_name']) for k, v in ROLES.items()).get(user.role, 'User')
     if hasattr(user, 'userprofile'):
         profile = user.userprofile
         for role_key, role_data in ROLES.items():
-            if role_key == profile.user_type:
+            if role_key == getattr(profile, 'user_type', None):
                 return role_data['display_name']
     return 'User'
 
@@ -137,8 +140,11 @@ def get_role_dashboard_redirect(user):
         'vendor': 'vendor_dashboard',
     }
     
+    # Check new User.role first
+    if hasattr(user, 'role') and user.role:
+        return role_map.get(user.role, 'home')
     if hasattr(user, 'userprofile'):
-        user_type = user.userprofile.user_type
+        user_type = getattr(user.userprofile, 'user_type', None)
         return role_map.get(user_type, 'home')
     
     return 'home'

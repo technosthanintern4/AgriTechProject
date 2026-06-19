@@ -1,61 +1,137 @@
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
-from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
+
+
+class UserManager(BaseUserManager):
+    use_in_migrations = True
+
+    def _create_user(self, username, email, password, **extra_fields):
+        if not username:
+            raise ValueError(_('The username must be set'))
+        if not email:
+            raise ValueError(_('The email address must be set'))
+
+        email = self.normalize_email(email)
+        username = self.model.normalize_username(username)
+        user = self.model(username=username, email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, username, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(username, email, password, **extra_fields)
+
+    def create_superuser(self, username, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError(_('Superuser must have is_staff=True.'))
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError(_('Superuser must have is_superuser=True.'))
+
+        return self._create_user(username, email, password, **extra_fields)
+
+
+class User(AbstractUser):
+    ROLE_SUPER_ADMIN = 'super_admin'
+    ROLE_ADMIN = 'admin'
+    ROLE_CUSTOMER = 'customer'
+    ROLE_DOCTOR = 'doctor'
+    ROLE_GARDENER = 'gardener'
+    ROLE_SELLER = 'seller'
+    ROLE_NURSERY_OWNER = 'nursery_owner'
+    ROLE_DELIVERY_PARTNER = 'delivery_partner'
+    ROLE_CONSULTANT = 'consultant'
+    ROLE_VENDOR = 'vendor'
+
+    ROLE_CHOICES = [
+        (ROLE_SUPER_ADMIN, 'Super Admin'),
+        (ROLE_ADMIN, 'Admin'),
+        (ROLE_CUSTOMER, 'Customer'),
+        (ROLE_DOCTOR, 'Doctor'),
+        (ROLE_GARDENER, 'Gardener'),
+        (ROLE_SELLER, 'Seller'),
+        (ROLE_NURSERY_OWNER, 'Nursery Owner'),
+        (ROLE_DELIVERY_PARTNER, 'Delivery Partner'),
+        (ROLE_CONSULTANT, 'Consultant'),
+        (ROLE_VENDOR, 'Vendor'),
+    ]
+
+    email = models.EmailField(_('email address'), unique=True)
+    role = models.CharField(
+        _('role'),
+        max_length=30,
+        choices=ROLE_CHOICES,
+        default=ROLE_CUSTOMER,
+        help_text=_('Primary role assigned to the user.'),
+    )
+    phone = models.CharField(_('phone number'), max_length=20, blank=True, null=True)
+    address = models.TextField(_('address'), blank=True, null=True)
+    city = models.CharField(_('city'), max_length=100, blank=True, null=True)
+    state = models.CharField(_('state'), max_length=100, blank=True, null=True)
+    pincode = models.CharField(_('postal code'), max_length=12, blank=True, null=True)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
+
+    class Meta:
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
+
+    def save(self, *args, **kwargs):
+        if self.role in {self.ROLE_SUPER_ADMIN, self.ROLE_ADMIN}:
+            self.is_staff = True
+        else:
+            self.is_staff = False
+
+        if self.role == self.ROLE_SUPER_ADMIN:
+            self.is_superuser = True
+        else:
+            self.is_superuser = False
+
+        super().save(*args, **kwargs)
+
+    def get_dashboard_url(self):
+        role_url_map = {
+            self.ROLE_SUPER_ADMIN: 'super_admin_dashboard',
+            self.ROLE_ADMIN: 'admin_dashboard',
+            self.ROLE_CUSTOMER: 'customer_dashboard',
+            self.ROLE_DOCTOR: 'doctor_dashboard',
+            self.ROLE_GARDENER: 'gardener_dashboard',
+            self.ROLE_SELLER: 'seller_dashboard',
+            self.ROLE_NURSERY_OWNER: 'nursery_dashboard',
+            self.ROLE_DELIVERY_PARTNER: 'delivery_dashboard',
+            self.ROLE_CONSULTANT: 'consultant_dashboard',
+            self.ROLE_VENDOR: 'vendor_dashboard',
+        }
+        return role_url_map.get(self.role, 'dashboard_home')
+
+    def __str__(self):
+        return self.username
 
 
 class UserProfile(models.Model):
-
-    USER_TYPES = [
-        ('super_admin', 'Super Admin'),
-        ('admin', 'Admin'),
-        ('customer', 'Customer'),
-        ('doctor', 'Doctor'),
-        ('gardener', 'Gardener'),
-        ('seller', 'Seller'),
-        ('nursery_owner', 'Nursery Owner'),
-        ('delivery_partner', 'Delivery Partner'),
-        ('consultant', 'Consultant'),
-        ('vendor', 'Vendor'),
-    ]
-
     user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='userprofile'
     )
+    bio = models.TextField(_('bio'), blank=True, null=True)
+    alternate_phone = models.CharField(_('alternate phone number'), max_length=20, blank=True, null=True)
+    profile_image = models.ImageField(_('profile image'), upload_to='profiles/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
-    user_type = models.CharField(
-        max_length=20,
-        choices=USER_TYPES,
-        default='customer'
-    )
-
-    phone = models.CharField(
-        max_length=15,
-        blank=True,
-        null=True
-    )
-
-    address = models.TextField(
-        blank=True,
-        null=True
-    )
-
-    city = models.CharField(
-        max_length=100,
-        blank=True,
-        null=True
-    )
-
-    state = models.CharField(
-        max_length=100,
-        blank=True,
-        null=True
-    )
-
-    pincode = models.CharField(
-        max_length=10,
-        blank=True,
-        null=True
-    )
+    class Meta:
+        verbose_name = _('user profile')
+        verbose_name_plural = _('user profiles')
 
     def __str__(self):
-        return f"{self.user.username} ({self.get_user_type_display()})"
+        return f"{self.user.username} Profile"

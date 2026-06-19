@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, redirect
 
-from .models import UserProfile
 from .forms import RegisterForm, UserProfileForm
+from .models import UserProfile
 from .roles import get_role_dashboard_redirect
 
 from orders.models import Order
@@ -14,135 +14,62 @@ from wishlist.models import Wishlist
 
 
 def register_view(request):
-
     if request.method == 'POST':
-
         form = RegisterForm(request.POST)
-
         if form.is_valid():
-
             user = form.save()
-
-            UserProfile.objects.create(
-                user=user,
-                user_type=form.cleaned_data['user_type']
-            )
-
+            UserProfile.objects.get_or_create(user=user)
             login(request, user)
-
             return redirect(get_role_dashboard_redirect(user))
-
     else:
-
         form = RegisterForm()
 
-    return render(
-        request,
-        'accounts/register.html',
-        {
-            'form': form
-        }
-    )
+    return render(request, 'accounts/register.html', {'form': form})
 
 
 def login_view(request):
-
     if request.method == 'POST':
-
-        form = AuthenticationForm(
-            request,
-            data=request.POST
-        )
-
+        form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-
             user = form.get_user()
-
             login(request, user)
-
             return redirect(get_role_dashboard_redirect(user))
-
     else:
-
         form = AuthenticationForm()
 
-    return render(
-        request,
-        'accounts/login.html',
-        {
-            'form': form
-        }
-    )
+    return render(request, 'accounts/login.html', {'form': form})
 
 
 def logout_view(request):
-
     logout(request)
-
     return redirect('home')
 
 
 @login_required
 def dashboard(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    consultations = Consultation.objects.filter(user=request.user).order_by('-created_at')
+    bookings = GardenerBooking.objects.filter(user=request.user).order_by('-created_at')
+    wishlist_items = Wishlist.objects.filter(user=request.user)
 
-    orders = Order.objects.filter(
-        user=request.user
-    ).order_by('-created_at')
-
-    consultations = Consultation.objects.filter(
-        user=request.user
-    ).order_by('-created_at')
-
-    bookings = GardenerBooking.objects.filter(
-        user=request.user
-    ).order_by('-created_at')
-
-    wishlist_items = Wishlist.objects.filter(
-        user=request.user
-    )
-
-    return render(
-        request,
-        'accounts/dashboard.html',
-        {
-            'orders': orders,
-            'consultations': consultations,
-            'bookings': bookings,
-            'wishlist_items': wishlist_items
-        }
-    )
+    return render(request, 'accounts/dashboard.html', {
+        'orders': orders,
+        'consultations': consultations,
+        'bookings': bookings,
+        'wishlist_items': wishlist_items,
+    })
 
 
 @login_required
 def profile_view(request):
-
-    profile, created = UserProfile.objects.get_or_create(
-        user=request.user
-    )
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
-
-        form = UserProfileForm(
-            request.POST,
-            instance=profile
-        )
-
+        form = UserProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
-
             form.save()
-
             return redirect('profile')
-
     else:
+        form = UserProfileForm(instance=profile)
 
-        form = UserProfileForm(
-            instance=profile
-        )
-
-    return render(
-        request,
-        'accounts/profile.html',
-        {
-            'form': form
-        }
-    )
+    return render(request, 'accounts/profile.html', {'form': form})

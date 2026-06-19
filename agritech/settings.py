@@ -56,6 +56,9 @@ INSTALLED_APPS = [
     'dashboard',
 ]
 
+# Use custom user model from accounts app
+AUTH_USER_MODEL = 'accounts.User'
+
 # MIDDLEWARE
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
