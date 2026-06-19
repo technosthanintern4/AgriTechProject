@@ -43,36 +43,18 @@
 
                     <ul class="dropdown-menu shadow">
 
-                        <li>
-                            <a class="dropdown-item"
-                               href="/doctors/">
-
-                                Doctors Consultation
-
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item"
-                               href="{% url 'gardener_list' %}">
-
-                                Gardeners
-
-                            </a>
-                        </li>
-
                     {% for category in navbar_services %}
 
-<li>
-    <a class="dropdown-item"
-       href="{% url 'category_services' category.slug %}">
+                      <li>
+                          <a class="dropdown-item"
+                             href="{% url 'category_services' category.slug %}">
 
-        {{ category.name }}
+                              {{ category.name }}
 
-    </a>
-</li>
+                          </a>
+                      </li>
 
-{% endfor %}
+                    {% endfor %}
 
 <li><hr class="dropdown-divider"></li>
 

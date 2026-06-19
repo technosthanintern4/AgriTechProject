@@ -1,5 +1,6 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
+from django.utils.text import slugify
 
 
 class ServiceCategory(models.Model):
@@ -32,6 +33,17 @@ class ServiceCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if hasattr(self, 'name') and getattr(self, 'slug', None) in (None, ''):
+            base_slug = slugify(self.name)
+            slug = base_slug
+            count = 1
+            while ServiceCategory.objects.filter(slug=slug).exclude(pk=getattr(self, 'pk', None)).exists():
+                slug = f"{base_slug}-{count}"
+                count += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
 
 class Service(models.Model):
@@ -92,3 +104,14 @@ class Service(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if hasattr(self, 'title') and getattr(self, 'slug', None) in (None, ''):
+            base_slug = slugify(self.title)
+            slug = base_slug
+            count = 1
+            while Service.objects.filter(slug=slug).exclude(pk=getattr(self, 'pk', None)).exists():
+                slug = f"{base_slug}-{count}"
+                count += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
