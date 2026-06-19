@@ -5,7 +5,11 @@
 <div class="container py-5">
 
     <h2 class="text-center mb-5">
-        All Services
+        {% if category %}
+            {{ category.name }}
+        {% else %}
+            All Services
+        {% endif %}
     </h2>
 
     <div class="row">

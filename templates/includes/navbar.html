@@ -61,13 +61,13 @@
                             </a>
                         </li>
 
-                    {% for service in navbar_services %}
+                    {% for category in navbar_services %}
 
 <li>
     <a class="dropdown-item"
-       href="{% url 'category_services' service.slug %}">
+       href="{% url 'category_services' category.slug %}">
 
-        {{ service.name }}
+        {{ category.name }}
 
     </a>
 </li>

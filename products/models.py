@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from cloudinary.models import CloudinaryField
 
 
@@ -65,6 +66,17 @@ class Product(models.Model):
 
     class Meta:
         ordering = ['name']
+
+    def save(self, *args, **kwargs):
+        if self.name and not self.slug:
+            base_slug = slugify(self.name)
+            slug = base_slug
+            count = 1
+            while Product.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{count}"
+                count += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

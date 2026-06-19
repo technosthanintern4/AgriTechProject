@@ -81,19 +81,3 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='products', to='products.productcategory'),
         ),
     ]
-    migrations.RunSQL(
-    """
-    INSERT INTO products_productcategory
-    (id, name, slug, is_active, created_at, updated_at)
-
-    SELECT
-        id,
-        name,
-        LOWER(REPLACE(name,' ','-')),
-        TRUE,
-        NOW(),
-        NOW()
-
-    FROM categories_category;
-    """
-),

@@ -113,8 +113,12 @@ CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
 if CLOUDINARY_URL:
     cloudinary.config(cloudinary_url=CLOUDINARY_URL)
     DEFAULT_STORAGE_BACKEND = "cloudinary_storage.storage.MediaCloudinaryStorage"
-    CLOUDINARY_STORAGE = {}  # cloudinary_storage will read from CLOUDINARY_URL env var
-    
+    CLOUDINARY_STORAGE = {}
+    # allow cloudinary_storage to pick credentials from CLOUDINARY_URL
+    CLOUDINARY_STORAGE.update({
+        'CLOUDINARY_URL': CLOUDINARY_URL
+    })
+    USE_CLOUDINARY = True
 elif CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
     cloudinary.config(
         cloud_name=CLOUDINARY_CLOUD_NAME,
@@ -122,12 +126,17 @@ elif CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
         api_secret=CLOUDINARY_API_SECRET,
     )
     DEFAULT_STORAGE_BACKEND = "cloudinary_storage.storage.MediaCloudinaryStorage"
-    CLOUDINARY_STORAGE = {}
-    
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
+        'API_KEY': CLOUDINARY_API_KEY,
+        'API_SECRET': CLOUDINARY_API_SECRET,
+    }
+    USE_CLOUDINARY = True
 else:
     # Fallback to local file storage
     DEFAULT_STORAGE_BACKEND = "django.core.files.storage.FileSystemStorage"
     CLOUDINARY_STORAGE = {}
+    USE_CLOUDINARY = False
 
 # STORAGES
 STORAGES = {
@@ -163,27 +172,35 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # EMAIL SETTINGS
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# EMAIL SETTINGS
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# STATIC AND STORAGE
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+DEFAULT_FILE_STORAGE = DEFAULT_STORAGE_BACKEND
 
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+# Security settings for production
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_REFERRER_POLICY = 'no-referrer-when-downgrade'
+else:
+    # development-friendly defaults
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_SSL_REDIRECT = False
 
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# Trim whitespace from ALLOWED_HOSTS entries
+ALLOWED_HOSTS = [h.strip() for h in ALLOWED_HOSTS]
 
 
 # =====================================
