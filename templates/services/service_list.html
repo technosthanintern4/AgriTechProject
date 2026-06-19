@@ -2,69 +2,189 @@
 
 {% block content %}
 
-<div class="container py-5">
+<style>
+    .services-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+    }
 
-    <h2 class="text-center mb-5">
-        {% if category %}
-            {{ category.name }}
-        {% else %}
-            All Services
-        {% endif %}
-    </h2>
+    .services-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
 
-    <div class="row">
+    .services-header p {
+        font-size: 1.1rem;
+        opacity: 0.95;
+        margin: 0;
+    }
 
-        {% for service in services %}
+    .service-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
 
-        <div class="col-lg-3 col-md-6 mb-4">
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
 
-            <div class="card shadow h-100">
+    .service-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
 
-                {% if service.image %}
-                <img src="{{ service.image.url }}"
-                     class="card-img-top"
-                     style="height:250px;object-fit:cover;">
-                {% else %}
-                <img src="https://via.placeholder.com/400x250"
-                     class="card-img-top"
-                     style="height:250px;object-fit:cover;">
-                {% endif %}
+    .service-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
 
-                <div class="card-body d-flex flex-column">
+    .service-body h5 {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        font-size: 1.2rem;
+    }
 
-                    <h5>
-                        {{ service.title }}
-                    </h5>
+    .service-body p {
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        flex: 1;
+    }
 
-                    <p>
-                        {{ service.description|truncatechars:100 }}
-                    </p>
+    .service-price {
+        color: #667eea;
+        font-weight: 700;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
 
-                    <a href="{% url 'service_detail' service.slug %}"
-                       class="btn btn-success mt-auto">
+    .btn-view-details {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
 
-                        View Details
+    .btn-view-details:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        color: white;
+    }
 
-                    </a>
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+    }
 
-                </div>
+    .empty-state i {
+        font-size: 3rem;
+        color: #ccc;
+        margin-bottom: 1rem;
+    }
 
-            </div>
+    .empty-state h4 {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
 
-        </div>
+    .empty-state p {
+        color: #999;
+    }
 
-        {% empty %}
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
 
-        <div class="col-12">
-            <div class="alert alert-warning">
-                No services available.
-            </div>
-        </div>
+    @media (max-width: 768px) {
+        .services-header h1 {
+            font-size: 1.8rem;
+        }
 
-        {% endfor %}
+        .services-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+    }
+</style>
 
+<!-- Header Section -->
+<div class="services-header">
+    <div class="container">
+        <h1>
+            <i class="bi bi-calendar-check"></i>
+            {% if category %}
+                {{ category.name }}
+            {% else %}
+                Our Services
+            {% endif %}
+        </h1>
+        <p>Expert consultations tailored to your plant care needs</p>
     </div>
+</div>
 
+<div class="container py-4">
+    {% if services %}
+        <div class="services-grid">
+            {% for service in services %}
+                <div class="service-card">
+                    {% if service.image %}
+                        <img src="{{ service.image.url }}" alt="{{ service.title }}" class="service-image">
+                    {% else %}
+                        <div class="service-image d-flex align-items-center justify-content-center">
+                            <i class="bi bi-image" style="font-size: 2rem; color: #999;"></i>
+                        </div>
+                    {% endif %}
+
+                    <div class="service-body">
+                        <h5>{{ service.title }}</h5>
+                        <p>{{ service.description|truncatechars:120 }}</p>
+                        
+                        {% if service.price %}
+                            <div class="service-price">₹{{ service.price }}</div>
+                        {% endif %}
+
+                        <a href="{% url 'service_detail' service.slug %}" class="btn-view-details">
+                            <i class="bi bi-arrow-right"></i> View Details
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card border-0 shadow-sm">
+            <div class="empty-state">
+                <i class="bi bi-inbox"></i>
+                <h4>No Services Available</h4>
+                <p>We're updating our service catalog. Check back soon!</p>
+            </div>
+        </div>
+    {% endif %}
 </div>
 
 {% endblock %}

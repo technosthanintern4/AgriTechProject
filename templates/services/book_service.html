@@ -2,34 +2,457 @@
 
 {% block content %}
 
-<div class="container py-5">
+<style>
+    .booking-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+    }
 
-    <h2>
+    .booking-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
 
-        Book Service
+    .booking-header p {
+        font-size: 1.1rem;
+        opacity: 0.95;
+    }
 
-    </h2>
+    .service-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 2rem;
+    }
 
-    <hr>
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
 
-    <h3>
+    .service-image {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
 
-        {{ service.title }}
+    .service-details {
+        padding: 2rem;
+    }
 
-    </h3>
+    .service-details h3 {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
 
-    <p>
+    .service-details p {
+        color: #555;
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+    }
 
-        {{ service.description }}
+    .service-meta {
+        display: flex;
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+    }
 
-    </p>
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #666;
+    }
 
-    <div class="alert alert-success">
+    .meta-item i {
+        color: #667eea;
+        font-size: 1.2rem;
+    }
 
-        Booking system coming soon.
+    .booking-form {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
 
+    .booking-form h4 {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    .form-control {
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .calendar-input {
+        position: relative;
+    }
+
+    .calendar-icon {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: #667eea;
+    }
+
+    .btn-book {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        font-weight: 600;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-book:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        color: white;
+    }
+
+    .btn-book:active {
+        transform: translateY(0);
+    }
+
+    .btn-back {
+        color: #667eea;
+        border: 2px solid #667eea;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-back:hover {
+        background: #667eea;
+        color: white;
+    }
+
+    .doctor-profile {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .doctor-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 2rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .doctor-name {
+        color: #2c3e50;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .doctor-title {
+        color: #667eea;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .features-list {
+        list-style: none;
+        padding: 0;
+        margin: 1.5rem 0;
+    }
+
+    .features-list li {
+        padding: 0.75rem 0;
+        color: #555;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .features-list li i {
+        color: #667eea;
+        font-weight: bold;
+    }
+
+    .alert-info-custom {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        border-left: 4px solid #667eea;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 2rem;
+        color: #2c3e50;
+    }
+
+    .alert-info-custom i {
+        color: #667eea;
+        margin-right: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+        .booking-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .booking-header p {
+            font-size: 0.95rem;
+        }
+
+        .service-image {
+            height: 200px;
+        }
+
+        .service-details {
+            padding: 1.5rem;
+        }
+
+        .booking-form {
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<!-- Header Section -->
+<div class="booking-header">
+    <div class="container">
+        <h1><i class="bi bi-calendar-check"></i> Book Consultation</h1>
+        <p>Schedule your expert consultation with ease</p>
     </div>
-
 </div>
+
+<div class="container py-4">
+    {% if booking_success %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius: 12px; border: none; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.15); margin-bottom: 2rem;">
+        <i class="bi bi-check-circle-fill" style="margin-right: 0.75rem; font-size: 1.2rem;"></i>
+        <strong>Booking Confirmed!</strong>
+        <br>
+        <small>Thank you for booking. You'll receive a confirmation email at <strong>{{ booking_details.email }}</strong>. Our team will contact you at <strong>{{ booking_details.phone }}</strong> to confirm your appointment for <strong>{{ booking_details.date }} at {{ booking_details.time }}</strong>.</small>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <!-- Left Column: Service Details -->
+        <div class="col-lg-6 col-md-12 mb-4">
+            <!-- Service Card -->
+            <div class="service-card">
+                {% if service.image %}
+                    <img src="{{ service.image.url }}" alt="{{ service.title }}" class="service-image">
+                {% else %}
+                    <div class="service-image d-flex align-items-center justify-content-center">
+                        <i class="bi bi-image" style="font-size: 3rem; color: #999;"></i>
+                    </div>
+                {% endif %}
+
+                <div class="service-details">
+                    <h3>{{ service.title }}</h3>
+                    <p>{{ service.description }}</p>
+
+                    <!-- Service Meta Information -->
+                    <div class="service-meta">
+                        {% if service.price %}
+                        <div class="meta-item">
+                            <i class="bi bi-currency-rupee"></i>
+                            <span><strong>Price:</strong> ₹{{ service.price }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="meta-item">
+                            <i class="bi bi-clock"></i>
+                            <span><strong>Duration:</strong> 30-60 mins</span>
+                        </div>
+                    </div>
+
+                    <!-- Features List -->
+                    <ul class="features-list">
+                        <li><i class="bi bi-check-circle-fill"></i> Expert consultation</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Professional diagnosis</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Personalized advice</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Follow-up support</li>
+                    </ul>
+
+                    <!-- Doctor/Specialist Info -->
+                    <div class="doctor-profile">
+                        <div class="doctor-avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div class="doctor-name">Expert Specialist</div>
+                        <div class="doctor-title">
+                            {% if service.category %}
+                                {{ service.category.name }}
+                            {% else %}
+                                Plant Care Professional
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Booking Form -->
+        <div class="col-lg-6 col-md-12">
+            <!-- Info Alert -->
+            <div class="alert-info-custom">
+                <i class="bi bi-info-circle"></i>
+                <strong>Quick Tip:</strong> Select your preferred date and time to book your consultation
+            </div>
+
+            <!-- Booking Form -->
+            <div class="booking-form">
+                <h4><i class="bi bi-calendar-event"></i> Select Your Slot</h4>
+
+                <form method="post" id="bookingForm">
+                    {% csrf_token %}
+
+                    <!-- Name Field -->
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="your.email@example.com" required>
+                    </div>
+
+                    <!-- Phone Field -->
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="+91 98765 43210" required>
+                    </div>
+
+                    <!-- Date Field with Calendar -->
+                    <div class="form-group">
+                        <label for="date">Preferred Date</label>
+                        <div class="calendar-input">
+                            <input type="date" class="form-control" id="date" name="date" required min="{{ today_date }}">
+                            <i class="bi bi-calendar-event calendar-icon"></i>
+                        </div>
+                    </div>
+
+                    <!-- Time Field -->
+                    <div class="form-group">
+                        <label for="time">Preferred Time</label>
+                        <select class="form-control" id="time" name="time" required>
+                            <option value="">-- Select Time Slot --</option>
+                            <option value="09:00">09:00 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="02:00">02:00 PM</option>
+                            <option value="03:00">03:00 PM</option>
+                            <option value="04:00">04:00 PM</option>
+                            <option value="05:00">05:00 PM</option>
+                        </select>
+                    </div>
+
+                    <!-- Consultation Type -->
+                    <div class="form-group">
+                        <label for="type">Consultation Type</label>
+                        <select class="form-control" id="type" name="type" required>
+                            <option value="">-- Select Type --</option>
+                            <option value="video">Video Call</option>
+                            <option value="phone">Phone Call</option>
+                            <option value="in-person">In-Person</option>
+                        </select>
+                    </div>
+
+                    <!-- Message Field -->
+                    <div class="form-group">
+                        <label for="message">Brief Description (Optional)</label>
+                        <textarea class="form-control" id="message" name="message" rows="4" placeholder="Tell us about your plants or requirements..."></textarea>
+                    </div>
+
+                    <!-- Terms & Conditions -->
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                        <label class="form-check-label" for="terms">
+                            I agree to the terms and conditions
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-book w-100 mb-2">
+                        <i class="bi bi-check-circle"></i> Confirm Booking
+                    </button>
+                </form>
+
+                <!-- Back Button -->
+                <a href="{% url 'service_detail' service.slug %}" class="btn btn-back w-100">
+                    <i class="bi bi-arrow-left"></i> Back to Service Details
+                </a>
+            </div>
+
+            <!-- Upcoming Availability Section -->
+            <div class="card mt-4 border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">
+                        <i class="bi bi-hourglass-split" style="color: #667eea;"></i> Availability Status
+                    </h6>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Next Available Slot:</span>
+                        <strong style="color: #667eea;">Tomorrow at 10:00 AM</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Set minimum date to today
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').setAttribute('min', today);
+    });
+
+    // Simple form validation
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        const phone = document.getElementById('phone').value;
+        if (phone.length < 10) {
+            e.preventDefault();
+            alert('Please enter a valid phone number (at least 10 digits)');
+        }
+    });
+</script>
 
 {% endblock %}
