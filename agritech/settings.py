@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'services',
     'reviews',
     'wishlist',
+    'dashboard',
 ]
 
 # MIDDLEWARE
@@ -85,8 +86,9 @@ TEMPLATES = [
 
                 'core.context_processors.site_settings',
                 'services.context_processors.navbar_services',
-             
                 'products.context_processors.navbar_categories',
+                'accounts.context_processors.user_context',
+                'accounts.context_processors.dashboard_context',
             ],
         },
     },
@@ -208,10 +210,10 @@ ALLOWED_HOSTS = [h.strip() for h in ALLOWED_HOSTS]
 # =====================================
 
 JAZZMIN_SETTINGS = {
-    "site_title": "AgriTech Administration",
-    "site_header": "AgriTech Administration",
-    "site_brand": "AgriTech Administration",
-    "welcome_sign": "Welcome to AgriTech Administration",
+    "site_title": "AgroSthan Administration",
+    "site_header": "AgroSthan Administration",
+    "site_brand": "AgroSthan Administration",
+    "welcome_sign": "Welcome to AgroSthan Administration",
 
     # Logo
     "site_logo": "images/logo.png",

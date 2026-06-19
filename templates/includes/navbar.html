@@ -5,7 +5,7 @@
 
         <!-- Logo -->
         <a class="navbar-brand fw-bold d-flex align-items-center" href="/">
-            🌱 AgriTech Nursery
+            🌱 AgroSthan
         </a>
 
         <button class="navbar-toggler"
@@ -165,16 +165,19 @@
                     <ul class="dropdown-menu dropdown-menu-end shadow">
 
                         <li>
+                            <a class="dropdown-item"
+                               href="{% url 'dashboard_home' %}">
+                                <i class="bi bi-speedometer2 me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
 
+                        <li>
                             <a class="dropdown-item"
                                href="{% url 'profile' %}">
-
                                 <i class="bi bi-pencil-square me-2"></i>
-
                                 Edit Profile
-
                             </a>
-
                         </li>
 
                     </ul>

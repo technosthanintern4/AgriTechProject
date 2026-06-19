@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import UserProfile
 from .forms import RegisterForm, UserProfileForm
+from .roles import get_role_dashboard_redirect
 
 from orders.models import Order
 from consultations.models import Consultation
@@ -29,7 +30,7 @@ def register_view(request):
 
             login(request, user)
 
-            return redirect('home')
+            return redirect(get_role_dashboard_redirect(user))
 
     else:
 
@@ -59,7 +60,7 @@ def login_view(request):
 
             login(request, user)
 
-            return redirect('home')
+            return redirect(get_role_dashboard_redirect(user))
 
     else:
 

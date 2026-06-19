@@ -21,7 +21,7 @@ def send_confirmation(modeladmin, request, queryset):
                 f"has been confirmed.\n\n"
                 f"Appointment Date: {consultation.appointment_date}\n\n"
                 f"Thank you,\n"
-                f"AgriTech Nursery"
+                f"AgroSthan"
             )
 
         success = True

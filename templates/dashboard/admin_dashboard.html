@@ -1,0 +1,32 @@
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4">
+            <h5>Admin summary</h5>
+            <p class="text-muted">Manage product catalog, orders, and service listings.</p>
+            <div class="row text-center mt-4">
+                <div class="col">
+                    <h3>420</h3>
+                    <p class="text-muted mb-0">Products</p>
+                </div>
+                <div class="col">
+                    <h3>2,100</h3>
+                    <p class="text-muted mb-0">Orders</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4">
+            <h5>Site health</h5>
+            <p class="text-muted">Review pending content and manage marketplace activity.</p>
+            <div class="progress" style="height: 10px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 78%;"></div>
+            </div>
+            <small class="text-muted">78% completion</small>
+        </div>
+    </div>
+</div>
+{% endblock %}

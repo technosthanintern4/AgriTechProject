@@ -5,11 +5,16 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
 
     USER_TYPES = [
+        ('super_admin', 'Super Admin'),
+        ('admin', 'Admin'),
         ('customer', 'Customer'),
-        ('gardener', 'Gardener'),
         ('doctor', 'Doctor'),
+        ('gardener', 'Gardener'),
         ('seller', 'Seller'),
         ('nursery_owner', 'Nursery Owner'),
+        ('delivery_partner', 'Delivery Partner'),
+        ('consultant', 'Consultant'),
+        ('vendor', 'Vendor'),
     ]
 
     user = models.OneToOneField(
