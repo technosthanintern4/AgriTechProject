@@ -84,5 +84,11 @@ class Service(models.Model):
         verbose_name = "Service"
         verbose_name_plural = "Services"
 
+    @classmethod
+    def active_navbar_services(cls):
+        return cls.objects.filter(
+            is_active=True
+        ).order_by('title')
+
     def __str__(self):
         return self.title
