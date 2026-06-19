@@ -1,10 +1,12 @@
-from .models import Service
+from .models import ServiceCategory
 
 
-def active_services(request):
-    """
-    Context processor to provide active services for navbar.
-    """
+def navbar_services(request):
+
+    categories = ServiceCategory.objects.filter(
+        is_active=True
+    ).order_by('name')
+
     return {
-        'navbar_services': Service.active_navbar_services()
+        'navbar_services': categories
     }

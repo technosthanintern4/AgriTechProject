@@ -61,14 +61,29 @@
                             </a>
                         </li>
 
-                        {% for service in navbar_services %}
-                        <li>
-                            <a class="dropdown-item"
-                               href="{% url 'service_detail' service.slug %}">
-                                {{ service.title }}
-                            </a>
-                        </li>
-                        {% endfor %}
+                    {% for service in navbar_services %}
+
+<li>
+    <a class="dropdown-item"
+       href="{% url 'category_services' service.slug %}">
+
+        {{ service.name }}
+
+    </a>
+</li>
+
+{% endfor %}
+
+<li><hr class="dropdown-divider"></li>
+
+<li>
+    <a class="dropdown-item fw-bold"
+       href="{% url 'service_list' %}">
+
+        All Services
+
+    </a>
+</li>
 
                     </ul>
 

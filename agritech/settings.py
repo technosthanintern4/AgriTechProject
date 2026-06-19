@@ -84,7 +84,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
 
                 'core.context_processors.site_settings',
-                'services.context_processors.active_services',
+                'services.context_processors.navbar_services',
              
                 'products.context_processors.navbar_categories',
             ],
