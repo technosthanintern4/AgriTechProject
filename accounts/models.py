@@ -62,6 +62,18 @@ class User(AbstractUser):
         (ROLE_VENDOR, 'Vendor'),
     ]
 
+    ROLE_CHOICES_REGISTRATION = [
+        (ROLE_ADMIN, 'Admin'),
+        (ROLE_CUSTOMER, 'Customer'),
+        (ROLE_DOCTOR, 'Doctor'),
+        (ROLE_GARDENER, 'Gardener'),
+        (ROLE_SELLER, 'Seller'),
+        (ROLE_NURSERY_OWNER, 'Nursery Owner'),
+        (ROLE_DELIVERY_PARTNER, 'Delivery Partner'),
+        (ROLE_CONSULTANT, 'Consultant'),
+        (ROLE_VENDOR, 'Vendor'),
+    ]
+
     email = models.EmailField(_('email address'), unique=True)
     role = models.CharField(
         _('role'),

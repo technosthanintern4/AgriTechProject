@@ -11,7 +11,7 @@ User = get_user_model()
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
     role = forms.ChoiceField(
-        choices=User.ROLE_CHOICES,
+        choices=User.ROLE_CHOICES_REGISTRATION,
         widget=forms.Select(attrs={'class': 'form-control'})
     )
 
