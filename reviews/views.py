@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
 from .models import Review
@@ -10,7 +10,8 @@ from products.models import Product
 @login_required
 def add_review(request, product_id):
 
-    product = Product.objects.get(
+    product = get_object_or_404(
+        Product,
         id=product_id
     )
 

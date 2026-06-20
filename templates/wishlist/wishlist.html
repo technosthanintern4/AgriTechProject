@@ -16,9 +16,15 @@
 
             <div class="card">
 
-                <img src="{{ item.product.image.url }}"
-                     class="card-img-top"
-                     style="height:250px; object-fit:cover;">
+                {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}"
+                         class="card-img-top"
+                         style="height:250px; object-fit:cover;">
+                {% else %}
+                    <img src="https://via.placeholder.com/500x250"
+                         class="card-img-top"
+                         style="height:250px; object-fit:cover;">
+                {% endif %}
 
                 <div class="card-body">
 

@@ -16,9 +16,15 @@
 
             <div class="card shadow h-100">
 
-                <img src="{{ gardener.image.url }}"
-                     class="card-img-top"
-                     style="height:300px; object-fit:cover;">
+                {% if gardener.image %}
+                    <img src="{{ gardener.image.url }}"
+                         class="card-img-top"
+                         style="height:300px; object-fit:cover;">
+                {% else %}
+                    <img src="https://via.placeholder.com/500x300"
+                         class="card-img-top"
+                         style="height:300px; object-fit:cover;">
+                {% endif %}
 
                 <div class="card-body">
 

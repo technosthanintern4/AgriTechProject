@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 
 from .models import Wishlist
@@ -8,7 +8,8 @@ from products.models import Product
 @login_required
 def add_to_wishlist(request, product_id):
 
-    product = Product.objects.get(
+    product = get_object_or_404(
+        Product,
         id=product_id
     )
 

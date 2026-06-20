@@ -14,10 +14,16 @@ def send_confirmation(modeladmin, request, queryset):
         message = consultation.confirmation_message
 
         if not message:
+            if consultation.doctor:
+                appointment_target = f"Dr. {consultation.doctor.name}"
+            elif consultation.service:
+                appointment_target = consultation.service.title
+            else:
+                appointment_target = "AgroSthan"
 
             message = (
                 f"Hello {consultation.user.username},\n\n"
-                f"Your appointment with Dr. {consultation.doctor.name} "
+                f"Your appointment with {appointment_target} "
                 f"has been confirmed.\n\n"
                 f"Appointment Date: {consultation.appointment_date}\n\n"
                 f"Thank you,\n"
