@@ -1,1 +1,1 @@
-web: gunicorn agritech.wsgi
+web: python manage.py migrate --noinput && gunicorn agritech.wsgi
