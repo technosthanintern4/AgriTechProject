@@ -47,6 +47,11 @@ class ServiceCategory(models.Model):
 
 
 class Service(models.Model):
+    STATUS_CHOICES = [
+        ('draft', 'Draft'),
+        ('active', 'Active'),
+        ('inactive', 'Inactive'),
+    ]
 
     category = models.ForeignKey(
         ServiceCategory,
@@ -82,6 +87,7 @@ class Service(models.Model):
     is_active = models.BooleanField(
         default=True
     )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
 
     created_at = models.DateTimeField(
         auto_now_add=True

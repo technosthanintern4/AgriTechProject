@@ -1,6 +1,18 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Doctor
+from .models import Doctor, DoctorAvailability, DoctorCategory
+
+
+class DoctorAvailabilityInline(admin.TabularInline):
+    model = DoctorAvailability
+    extra = 1
+
+
+@admin.register(DoctorCategory)
+class DoctorCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'is_active')
+    list_filter = ('is_active',)
+    search_fields = ('name', 'description')
 
 
 @admin.register(Doctor)
@@ -8,6 +20,7 @@ class DoctorAdmin(admin.ModelAdmin):
     list_display = [
         'image_tag',
         'name',
+        'category',
         'specialization',
         'experience',
         'fees',
@@ -20,15 +33,20 @@ class DoctorAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'image',
+                'category',
                 'name',
                 'specialization',
                 'experience',
                 'fees',
                 'is_available',
                 'bio',
+                'availability',
+                'consultation_notes',
             )
         }),
     )
+
+    inlines = (DoctorAvailabilityInline,)
 
     def image_tag(self, obj):
         if obj.image:

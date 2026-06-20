@@ -22,6 +22,24 @@ def get_video_storage():
 
 
 class SiteSettings(models.Model):
+    site_name = models.CharField(max_length=150, default='AgroSthan')
+    logo = models.ImageField(upload_to='site/', blank=True, null=True)
+    favicon = models.ImageField(upload_to='site/', blank=True, null=True)
+    footer_logo = models.ImageField(upload_to='site/', blank=True, null=True)
+    contact_details = models.TextField(blank=True)
+    email = models.EmailField(blank=True)
+    phone = models.CharField(max_length=30, blank=True)
+    address = models.TextField(blank=True)
+    facebook_url = models.URLField(blank=True)
+    instagram_url = models.URLField(blank=True)
+    twitter_url = models.URLField(blank=True)
+    linkedin_url = models.URLField(blank=True)
+    youtube_url = models.URLField(blank=True)
+    copyright_text = models.CharField(
+        max_length=255,
+        default='© 2026 AgroSthan. All Rights Reserved.'
+    )
+
     background_video = models.FileField(
         upload_to='backgrounds/',
         storage=get_video_storage(),

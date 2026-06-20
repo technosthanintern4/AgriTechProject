@@ -46,26 +46,26 @@
     <div class="container text-center text-white px-3">
 
         <h1 class="display-2">
-            AgroSthan
+            {% if home_content %}{{ home_content.hero_title }}{% else %}AgroSthan{% endif %}
         </h1>
 
         <p class="lead">
-            Plants • Plant Doctors • Gardeners • Home Delivery
+            {% if home_content %}{{ home_content.hero_subtitle }}{% else %}Plants • Plant Doctors • Gardeners • Home Delivery{% endif %}
         </p>
 
         <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
 
-            <a href="{% url 'product_list' %}"
+            <a href="{% if home_content %}{{ home_content.primary_cta_url }}{% else %}{% url 'product_list' %}{% endif %}"
                class="btn btn-light btn-lg">
 
-                Shop Plants
+                {% if home_content %}{{ home_content.primary_cta_text }}{% else %}Shop Plants{% endif %}
 
             </a>
 
-            <a href="{% url 'doctor_list' %}"
+            <a href="{% if home_content %}{{ home_content.secondary_cta_url }}{% else %}{% url 'doctor_list' %}{% endif %}"
                class="btn btn-outline-light btn-lg">
 
-                Book Plant Doctor
+                {% if home_content %}{{ home_content.secondary_cta_text }}{% else %}Book Plant Doctor{% endif %}
 
             </a>
 
@@ -83,26 +83,26 @@
     <div class="container text-center">
 
         <h1 class="display-2">
-            AgroSthan
+            {% if home_content %}{{ home_content.hero_title }}{% else %}AgroSthan{% endif %}
         </h1>
 
         <p class="lead">
-            Plants • Plant Doctors • Gardeners • Home Delivery
+            {% if home_content %}{{ home_content.hero_subtitle }}{% else %}Plants • Plant Doctors • Gardeners • Home Delivery{% endif %}
         </p>
 
         <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
 
-            <a href="{% url 'product_list' %}"
+            <a href="{% if home_content %}{{ home_content.primary_cta_url }}{% else %}{% url 'product_list' %}{% endif %}"
                class="btn btn-light btn-lg">
 
-                Shop Plants
+                {% if home_content %}{{ home_content.primary_cta_text }}{% else %}Shop Plants{% endif %}
 
             </a>
 
-            <a href="{% url 'doctor_list' %}"
+            <a href="{% if home_content %}{{ home_content.secondary_cta_url }}{% else %}{% url 'doctor_list' %}{% endif %}"
                class="btn btn-outline-light btn-lg">
 
-                Book Plant Doctor
+                {% if home_content %}{{ home_content.secondary_cta_text }}{% else %}Book Plant Doctor{% endif %}
 
             </a>
 

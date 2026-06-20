@@ -17,10 +17,46 @@ ROLES = {
         'display_name': 'Admin',
         'permissions': [
             'add_user', 'change_user', 'view_user',
+            'add_group', 'change_group', 'delete_group', 'view_group',
             'add_userprofile', 'change_userprofile', 'view_userprofile',
             'add_product', 'change_product', 'delete_product', 'view_product',
+            'add_productcategory', 'change_productcategory', 'delete_productcategory', 'view_productcategory',
+            'add_productimage', 'change_productimage', 'delete_productimage', 'view_productimage',
+            'add_productvariant', 'change_productvariant', 'delete_productvariant', 'view_productvariant',
             'add_service', 'change_service', 'delete_service', 'view_service',
+            'add_servicecategory', 'change_servicecategory', 'delete_servicecategory', 'view_servicecategory',
             'add_order', 'change_order', 'view_order',
+            'add_consultation', 'change_consultation', 'delete_consultation', 'view_consultation',
+            'add_doctor', 'change_doctor', 'delete_doctor', 'view_doctor',
+            'add_doctorcategory', 'change_doctorcategory', 'delete_doctorcategory', 'view_doctorcategory',
+            'add_doctoravailability', 'change_doctoravailability', 'delete_doctoravailability', 'view_doctoravailability',
+            'add_websitesettings', 'change_websitesettings', 'delete_websitesettings', 'view_websitesettings',
+            'add_menuitem', 'change_menuitem', 'delete_menuitem', 'view_menuitem',
+            'add_homepagecontent', 'change_homepagecontent', 'delete_homepagecontent', 'view_homepagecontent',
+            'add_footercontent', 'change_footercontent', 'delete_footercontent', 'view_footercontent',
+            'add_dynamicsection', 'change_dynamicsection', 'delete_dynamicsection', 'view_dynamicsection',
+            'add_cmspage', 'change_cmspage', 'delete_cmspage', 'view_cmspage',
+            'add_blogcategory', 'change_blogcategory', 'delete_blogcategory', 'view_blogcategory',
+            'add_tag', 'change_tag', 'delete_tag', 'view_tag',
+            'add_blog', 'change_blog', 'delete_blog', 'view_blog',
+            'add_mediaasset', 'change_mediaasset', 'delete_mediaasset', 'view_mediaasset',
+            'add_department', 'change_department', 'delete_department', 'view_department',
+            'add_designation', 'change_designation', 'delete_designation', 'view_designation',
+            'add_employee', 'change_employee', 'delete_employee', 'view_employee',
+            'add_employeedocument', 'change_employeedocument', 'delete_employeedocument', 'view_employeedocument',
+            'add_attendance', 'change_attendance', 'delete_attendance', 'view_attendance',
+            'add_task', 'change_task', 'delete_task', 'view_task',
+            'add_taskcomment', 'change_taskcomment', 'delete_taskcomment', 'view_taskcomment',
+            'add_taskattachment', 'change_taskattachment', 'delete_taskattachment', 'view_taskattachment',
+            'add_report', 'change_report', 'delete_report', 'view_report',
+        ]
+    },
+    'employee': {
+        'display_name': 'Employee',
+        'permissions': [
+            'view_task', 'change_task',
+            'add_taskcomment', 'view_taskcomment',
+            'add_attendance', 'change_attendance', 'view_attendance',
         ]
     },
     'customer': {
@@ -155,8 +191,9 @@ def get_role_dashboard_redirect(user):
     """Get dashboard URL based on user role"""
     
     role_map = {
-        'super_admin': 'admin_dashboard',
-        'admin': 'admin_dashboard',
+        'super_admin': 'admin:index',
+        'admin': 'admin:index',
+        'employee': 'dashboard_home',
         'customer': 'customer_dashboard',
         'doctor': 'doctor_dashboard',
         'gardener': 'gardener_dashboard',

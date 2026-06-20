@@ -31,11 +31,13 @@ class ServiceAdmin(admin.ModelAdmin):
         'title',
         'category',
         'is_active',
+        'status',
         'created_at'
     )
 
     list_editable = (
         'is_active',
+        'status',
     )
 
     prepopulated_fields = {
@@ -50,6 +52,7 @@ class ServiceAdmin(admin.ModelAdmin):
     list_filter = (
         'category',
         'is_active',
+        'status',
         'created_at'
     )
 

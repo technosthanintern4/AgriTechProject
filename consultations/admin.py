@@ -85,6 +85,7 @@ class ConsultationAdmin(admin.ModelAdmin):
         'doctor',
         'service',
         'appointment_date',
+        'appointment_time',
         'status',
         'confirmation_method',
         'confirmation_sent',
@@ -113,7 +114,21 @@ class ConsultationAdmin(admin.ModelAdmin):
                     'doctor',
                     'service',
                     'appointment_date',
+                    'appointment_time',
                     'status'
+                )
+            }
+        ),
+
+        (
+            'Patient Details',
+            {
+                'fields': (
+                    'patient_name',
+                    'patient_phone',
+                    'patient_email',
+                    'reports',
+                    'notes',
                 )
             }
         ),

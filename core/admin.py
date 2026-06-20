@@ -6,6 +6,24 @@ from .models import SiteSettings
 @admin.register(SiteSettings)
 class SiteSettingsAdmin(admin.ModelAdmin):
     fieldsets = (
+        ('Website settings', {
+            'fields': (
+                'site_name',
+                'logo',
+                'favicon',
+                'footer_logo',
+                'contact_details',
+                'email',
+                'phone',
+                'address',
+                'facebook_url',
+                'instagram_url',
+                'twitter_url',
+                'linkedin_url',
+                'youtube_url',
+                'copyright_text',
+            ),
+        }),
         ('Background video', {
             'classes': ('wide',),
             'fields': (

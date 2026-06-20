@@ -9,7 +9,10 @@ class Consultation(models.Model):
     STATUS_CHOICES = [
         ('Pending', 'Pending'),
         ('Approved', 'Approved'),
+        ('Scheduled', 'Scheduled'),
+        ('In Progress', 'In Progress'),
         ('Completed', 'Completed'),
+        ('Cancelled', 'Cancelled'),
     ]
 
     CONFIRMATION_METHODS = [
@@ -40,6 +43,7 @@ class Consultation(models.Model):
     )
 
     appointment_date = models.DateField()
+    appointment_time = models.TimeField(blank=True, null=True)
 
     status = models.CharField(
         max_length=20,
@@ -101,6 +105,11 @@ class Consultation(models.Model):
         null=True,
         help_text="Duration for contract gardening (e.g., 3 months, 1 year)"
     )
+    patient_name = models.CharField(max_length=150, blank=True)
+    patient_phone = models.CharField(max_length=30, blank=True)
+    patient_email = models.EmailField(blank=True)
+    reports = models.FileField(upload_to='consultation_reports/', blank=True, null=True)
+    notes = models.TextField(blank=True)
 
     created_at = models.DateTimeField(
         auto_now_add=True

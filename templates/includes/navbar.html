@@ -5,7 +5,12 @@
 
         <!-- Logo -->
         <a class="navbar-brand fw-bold d-flex align-items-center" href="/">
-            🌱 AgroSthan
+            {% if cms_settings and cms_settings.logo %}
+                <img src="{{ cms_settings.logo.url }}" alt="{{ cms_settings.site_name }}" height="32" class="me-2">
+            {% elif site_settings and site_settings.logo %}
+                <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.site_name }}" height="32" class="me-2">
+            {% endif %}
+            🌱 {% if cms_settings %}{{ cms_settings.site_name }}{% elif site_settings %}{{ site_settings.site_name }}{% else %}AgroSthan{% endif %}
         </a>
 
         <button class="navbar-toggler"
@@ -21,6 +26,40 @@
 
             <!-- Left Side -->
             <ul class="navbar-nav">
+                {% if cms_menu_items %}
+                    {% for item in cms_menu_items %}
+                        {% if item.children %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white"
+                               href="{{ item.url }}"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               {% if item.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}>
+                                {{ item.title }}
+                            </a>
+                            <ul class="dropdown-menu shadow">
+                                {% for child in item.children %}
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{{ child.url }}"
+                                       {% if child.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}>
+                                        {{ child.title }}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link text-white"
+                               href="{{ item.url }}"
+                               {% if item.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}>
+                                {{ item.title }}
+                            </a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
 
                 <!-- Home -->
                 <li class="nav-item">
@@ -112,6 +151,7 @@
                     </ul>
 
                 </li>
+                {% endif %}
 
             </ul>
 

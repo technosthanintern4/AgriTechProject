@@ -1,7 +1,26 @@
 <footer class="bg-dark text-white text-center py-4 mt-auto">
     <div class="container">
+        {% if cms_footer and cms_footer.footer_image %}
+        <img src="{{ cms_footer.footer_image.url }}" alt="Footer" height="44" class="mb-2">
+        {% elif cms_settings and cms_settings.footer_logo %}
+        <img src="{{ cms_settings.footer_logo.url }}" alt="{{ cms_settings.site_name }}" height="44" class="mb-2">
+        {% elif site_settings and site_settings.footer_logo %}
+        <img src="{{ site_settings.footer_logo.url }}" alt="{{ site_settings.site_name }}" height="44" class="mb-2">
+        {% endif %}
+        {% if cms_footer and cms_footer.about_section %}
+        <p class="mb-2">{{ cms_footer.about_section }}</p>
+        {% endif %}
+        {% if cms_footer and cms_footer.contact_information %}
+        <p class="mb-2">{{ cms_footer.contact_information }}</p>
+        {% elif cms_settings and cms_settings.contact_details %}
+        <p class="mb-2">{{ cms_settings.contact_details }}</p>
+        {% elif site_settings and site_settings.contact_details %}
+        <p class="mb-2">{{ site_settings.contact_details }}</p>
+        {% endif %}
         <p class="mb-0">
+            {% if cms_footer %}{{ cms_footer.copyright_area }}{% elif cms_settings %}{{ cms_settings.copyright_text }}{% elif site_settings %}{{ site_settings.copyright_text }}{% else %}
             © 2026 AgroSthan. All Rights Reserved.
+            {% endif %}
         </p>
     </div>
 </footer>

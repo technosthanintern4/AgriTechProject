@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from cms.models import HomePageContent
 from services.models import Service
 
 
@@ -11,6 +12,7 @@ def home(request):
         request,
         "core/home.html",
         {
-            "services": services
+            "services": services,
+            "home_content": HomePageContent.objects.filter(is_active=True).first(),
         }
     )

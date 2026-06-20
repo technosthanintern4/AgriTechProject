@@ -39,28 +39,6 @@ def get_base_dashboard_context():
     }
 
 
-@admin_required
-def admin_dashboard(request):
-    context = get_base_dashboard_context()
-    context.update({
-        'dashboard_title': 'Admin Dashboard',
-        'recent_orders': Order.objects.order_by('-created_at')[:5],
-        'recent_services': Service.objects.order_by('-created_at')[:5],
-        'active_users': User.objects.filter(is_active=True).count(),
-        'inactive_users': User.objects.filter(is_active=False).count(),
-    })
-    return render(request, 'dashboard/admin_dashboard.html', context)
-    context = get_base_dashboard_context()
-    context.update({
-        'dashboard_title': 'Admin Dashboard',
-        'recent_orders': Order.objects.order_by('-created_at')[:5],
-        'recent_services': Service.objects.order_by('-created_at')[:5],
-        'active_users': User.objects.filter(is_active=True).count(),
-        'inactive_users': User.objects.filter(is_active=False).count(),
-    })
-    return render(request, 'dashboard/admin_dashboard.html', context)
-
-
 @role_required('customer')
 def customer_dashboard(request):
     context = {

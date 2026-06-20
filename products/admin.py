@@ -1,5 +1,15 @@
 from django.contrib import admin
-from .models import ProductCategory, Product
+from .models import ProductCategory, Product, ProductImage, ProductVariant
+
+
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 1
+
+
+class ProductVariantInline(admin.TabularInline):
+    model = ProductVariant
+    extra = 1
 
 
 @admin.register(ProductCategory)
@@ -39,12 +49,14 @@ class ProductAdmin(admin.ModelAdmin):
         'category',
         'price',
         'stock',
+        'status',
         'is_available'
     )
 
     list_filter = (
         'category',
-        'is_available'
+        'is_available',
+        'status',
     )
 
     search_fields = (
@@ -81,13 +93,22 @@ class ProductAdmin(admin.ModelAdmin):
         ('Pricing', {
             'fields': (
                 'price',
-                'stock'
+                'stock',
+                'status'
             )
         }),
 
         ('Availability', {
             'fields': (
                 'is_available',
+            )
+        }),
+
+        ('SEO', {
+            'fields': (
+                'seo_title',
+                'seo_description',
+                'seo_keywords',
             )
         }),
 
@@ -99,3 +120,5 @@ class ProductAdmin(admin.ModelAdmin):
         }),
 
     )
+
+    inlines = (ProductImageInline, ProductVariantInline)

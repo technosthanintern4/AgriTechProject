@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'reviews',
     'wishlist',
     'dashboard',
+    'cms',
 ]
 
 # Use custom user model from accounts app
@@ -100,6 +101,7 @@ TEMPLATES = [
                 'products.context_processors.navbar_categories',
                 'accounts.context_processors.user_context',
                 'accounts.context_processors.dashboard_context',
+                'cms.context_processors.cms_globals',
             ],
         },
     },
@@ -287,6 +289,17 @@ JAZZMIN_SETTINGS = {
         "gardeners.Gardener": "fas fa-leaf",
         "reviews.Review": "fas fa-star",
         "wishlist.Wishlist": "fas fa-heart",
+        "cms.WebsiteSettings": "fas fa-cogs",
+        "cms.MenuItem": "fas fa-bars",
+        "cms.HomePageContent": "fas fa-home",
+        "cms.FooterContent": "fas fa-shoe-prints",
+        "cms.Blog": "fas fa-blog",
+        "cms.MediaAsset": "fas fa-photo-video",
+        "cms.Employee": "fas fa-id-badge",
+        "cms.Attendance": "fas fa-calendar-check",
+        "cms.Task": "fas fa-tasks",
+        "cms.CMSPage": "fas fa-file-alt",
+        "cms.Report": "fas fa-chart-line",
     },
 
     # Remove extra links

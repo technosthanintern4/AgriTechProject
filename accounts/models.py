@@ -40,6 +40,7 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     ROLE_SUPER_ADMIN = 'super_admin'
     ROLE_ADMIN = 'admin'
+    ROLE_EMPLOYEE = 'employee'
     ROLE_CUSTOMER = 'customer'
     ROLE_DOCTOR = 'doctor'
     ROLE_GARDENER = 'gardener'
@@ -52,6 +53,7 @@ class User(AbstractUser):
     ROLE_CHOICES = [
         (ROLE_SUPER_ADMIN, 'Super Admin'),
         (ROLE_ADMIN, 'Admin'),
+        (ROLE_EMPLOYEE, 'Employee'),
         (ROLE_CUSTOMER, 'Customer'),
         (ROLE_DOCTOR, 'Doctor'),
         (ROLE_GARDENER, 'Gardener'),
@@ -64,6 +66,7 @@ class User(AbstractUser):
 
     ROLE_CHOICES_REGISTRATION = [
         (ROLE_ADMIN, 'Admin'),
+        (ROLE_EMPLOYEE, 'Employee'),
         (ROLE_CUSTOMER, 'Customer'),
         (ROLE_DOCTOR, 'Doctor'),
         (ROLE_GARDENER, 'Gardener'),
@@ -113,7 +116,8 @@ class User(AbstractUser):
     def get_dashboard_url(self):
         role_url_map = {
             self.ROLE_SUPER_ADMIN: 'super_admin_dashboard',
-            self.ROLE_ADMIN: 'admin_dashboard',
+            self.ROLE_ADMIN: 'admin:index',
+            self.ROLE_EMPLOYEE: 'dashboard_home',
             self.ROLE_CUSTOMER: 'customer_dashboard',
             self.ROLE_DOCTOR: 'doctor_dashboard',
             self.ROLE_GARDENER: 'gardener_dashboard',
