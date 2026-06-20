@@ -1,11 +1,86 @@
 {% extends 'dashboard_base.html' %}
 
+{% block dashboard_header %}
+<div class="row g-3 mb-4">
+    <div class="col-md-8">
+        <div class="bg-primary bg-opacity-10 rounded-4 p-4 text-dark">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h4 class="mb-1">Doctor Dashboard</h4>
+                    <p class="mb-0 text-muted">Manage consultations, appointments, and patient requests.</p>
+                </div>
+                <i class="fas fa-user-md fa-3x text-primary"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-3">Availability</h6>
+            <p class="mb-0 text-muted">Keep your consultation calendar up to date.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
 {% block dashboard_content %}
 <div class="row g-4">
-    <div class="col-12">
-        <div class="card border-0 shadow-sm p-4">
-            <h5>Doctor appointments</h5>
-            <p class="text-muted">Review patient consultation requests and scheduled sessions.</p>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Pending</h6>
+            <h2 class="mb-1">{{ pending_consultations }}</h2>
+            <p class="text-muted mb-0">Consultation requests waiting approval</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Approved</h6>
+            <h2 class="mb-1">{{ approved_consultations }}</h2>
+            <p class="text-muted mb-0">Confirmed appointments</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Completed</h6>
+            <h2 class="mb-1">{{ completed_consultations }}</h2>
+            <p class="text-muted mb-0">Finished consultations</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Upcoming</h6>
+            <h2 class="mb-1">{{ upcoming_appointments|length }}</h2>
+            <p class="text-muted mb-0">Next appointments on your schedule</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mt-2">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h5 class="mb-3">Upcoming appointments</h5>
+            {% if upcoming_appointments %}
+            <ul class="list-group list-group-flush">
+                {% for appointment in upcoming_appointments %}
+                <li class="list-group-item py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ appointment.user.username }}</strong>
+                            <div class="text-muted small">{{ appointment.appointment_date|date:'M d, Y' }}</div>
+                        </div>
+                        <span class="badge bg-success">{{ appointment.status }}</span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-muted mb-0">No upcoming appointments scheduled.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h5 class="mb-3">Activity</h5>
+            <p class="text-muted mb-0">Monitor your consultation progress and patient requests.</p>
         </div>
     </div>
 </div>

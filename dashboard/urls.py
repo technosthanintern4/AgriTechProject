@@ -1,7 +1,6 @@
 from django.urls import path
 from .views import (
     dashboard_home,
-    super_admin_dashboard,
     admin_dashboard,
     customer_dashboard,
     doctor_dashboard,
@@ -15,7 +14,6 @@ from .views import (
 
 urlpatterns = [
     path('', dashboard_home, name='dashboard_home'),
-    path('super-admin/', super_admin_dashboard, name='super_admin_dashboard'),
     path('admin/', admin_dashboard, name='admin_dashboard'),
     path('customer/', customer_dashboard, name='customer_dashboard'),
     path('doctor/', doctor_dashboard, name='doctor_dashboard'),

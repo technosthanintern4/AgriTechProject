@@ -1,11 +1,80 @@
 {% extends 'dashboard_base.html' %}
 
+{% block dashboard_header %}
+<div class="row g-3 mb-4">
+    <div class="col-md-8">
+        <div class="bg-success bg-opacity-10 rounded-4 p-4 text-dark">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h4 class="mb-1">Consultant Dashboard</h4>
+                    <p class="mb-0 text-muted">Manage appointments, expert consultations, and client requests.</p>
+                </div>
+                <i class="fas fa-comments fa-3x text-success"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-3">Requests</h6>
+            <p class="mb-0 text-muted">Your consultation queue at a glance.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
 {% block dashboard_content %}
 <div class="row g-4">
-    <div class="col-12">
-        <div class="card border-0 shadow-sm p-4">
-            <h5>Consultant dashboard</h5>
-            <p class="text-muted">Manage consulting requests, advice sessions, and reports.</p>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Consultations</h6>
+            <h2 class="mb-1">{{ total_consultations }}</h2>
+            <p class="text-muted mb-0">All consultation records</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Approved</h6>
+            <h2 class="mb-1">{{ approved_consultations }}</h2>
+            <p class="text-muted mb-0">Confirmed sessions</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Pending</h6>
+            <h2 class="mb-1">{{ pending_consultations }}</h2>
+            <p class="text-muted mb-0">Requests waiting review</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Recent requests</h6>
+            <h2 class="mb-1">{{ recent_requests|length }}</h2>
+            <p class="text-muted mb-0">Last consultations</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mt-2">
+    <div class="col-lg-12">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h5 class="mb-3">Recent consultation requests</h5>
+            {% if recent_requests %}
+            <ul class="list-group list-group-flush">
+                {% for request in recent_requests %}
+                <li class="list-group-item py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ request.user.username }}</strong>
+                            <div class="text-muted small">{{ request.created_at|date:'M d, Y' }} • {{ request.status }}</div>
+                        </div>
+                        <span class="badge bg-success">{{ request.status }}</span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-muted mb-0">No recent consultation requests yet.</p>
+            {% endif %}
         </div>
     </div>
 </div>

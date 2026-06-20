@@ -1,11 +1,89 @@
 {% extends 'dashboard_base.html' %}
 
+{% block dashboard_header %}
+<div class="row g-3 mb-4">
+    <div class="col-md-8">
+        <div class="bg-success bg-opacity-10 rounded-4 p-4 text-dark">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h4 class="mb-1">Gardener Dashboard</h4>
+                    <p class="mb-0 text-muted">Organize bookings, view upcoming jobs, and track performance.</p>
+                </div>
+                <i class="fas fa-leaf fa-3x text-success"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-3">Workload</h6>
+            <p class="mb-0 text-muted">Quick overview of pending and confirmed tasks.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
 {% block dashboard_content %}
 <div class="row g-4">
-    <div class="col-12">
-        <div class="card border-0 shadow-sm p-4">
-            <h5>Gardener workspace</h5>
-            <p class="text-muted">Manage garden jobs, bookings, and service requests.</p>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Total bookings</h6>
+            <h2 class="mb-1">{{ total_bookings }}</h2>
+            <p class="text-muted mb-0">All gardener assignments</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Confirmed</h6>
+            <h2 class="mb-1">{{ confirmed_bookings }}</h2>
+            <p class="text-muted mb-0">Jobs ready to execute</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Pending</h6>
+            <h2 class="mb-1">{{ pending_bookings }}</h2>
+            <p class="text-muted mb-0">Bookings awaiting confirmation</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Upcoming jobs</h6>
+            <h2 class="mb-1">{{ upcoming_jobs|length }}</h2>
+            <p class="text-muted mb-0">Jobs scheduled soon</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mt-2">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h5 class="mb-3">Upcoming jobs</h5>
+            {% if upcoming_jobs %}
+            <ul class="list-group list-group-flush">
+                {% for job in upcoming_jobs %}
+                <li class="list-group-item py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ job.service_type }}</strong>
+                            <div class="text-muted small">{{ job.booking_date|date:'M d, Y' }} • {{ job.gardener.name }}</div>
+                        </div>
+                        <span class="badge bg-warning text-dark">{{ job.status }}</span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-muted mb-0">No scheduling found for upcoming jobs.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h5 class="mb-3">Performance</h5>
+            <div class="progress mb-3" style="height: 12px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 72%;"></div>
+            </div>
+            <p class="text-muted mb-0">72% of your assignments are confirmed.</p>
         </div>
     </div>
 </div>

@@ -1,19 +1,110 @@
 {% extends 'dashboard_base.html' %}
 
-{% block dashboard_content %}
-<div class="row g-4">
-    <div class="col-md-6 col-xl-4">
-        <div class="card border-0 shadow-sm p-4">
-            <h6 class="text-uppercase text-muted">Orders</h6>
-            <h3 class="mb-0">12</h3>
-            <p class="text-muted mb-0">Recent purchases and bookings</p>
+{% block dashboard_header %}
+<div class="row g-3 mb-4">
+    <div class="col-md-8">
+        <div class="bg-success bg-opacity-10 rounded-4 p-4 text-white" style="background: linear-gradient(135deg, rgba(40,167,69,0.2), rgba(0,123,255,0.1));">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h4 class="mb-1 text-dark">Hello, {{ user.first_name|default:user.username }}</h4>
+                    <p class="mb-0 text-muted">Here are your latest orders and wishlist updates.</p>
+                </div>
+                <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" width="60" alt="Profile">
+            </div>
         </div>
     </div>
-    <div class="col-md-6 col-xl-4">
-        <div class="card border-0 shadow-sm p-4">
-            <h6 class="text-uppercase text-muted">Wishlist</h6>
-            <h3 class="mb-0">8</h3>
-            <p class="text-muted mb-0">Plants and services saved</p>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-3">Recommended</h6>
+            <p class="mb-0 text-muted">Based on your recent browsing history.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="row g-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Orders</h6>
+            <h2 class="mb-1">{{ orders_count }}</h2>
+            <p class="text-muted mb-0">Total orders placed</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Wishlist</h6>
+            <h2 class="mb-1">{{ wishlist_count }}</h2>
+            <p class="text-muted mb-0">Saved favourites</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Consultations</h6>
+            <h2 class="mb-1">{{ consultations_count }}</h2>
+            <p class="text-muted mb-0">Doctor sessions booked</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Cart</h6>
+            <h2 class="mb-1">{{ cart_count }}</h2>
+            <p class="text-muted mb-0">Items waiting in cart</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mt-2">
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h5 class="mb-3">Recent orders</h5>
+            {% if recent_orders %}
+            <div class="table-responsive">
+                <table class="table table-borderless align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in recent_orders %}
+                        <tr>
+                            <td>#{{ order.id }}</td>
+                            <td>{{ order.created_at|date:'M d, Y' }}</td>
+                            <td>{{ order.status }}</td>
+                            <td>${{ order.total_amount }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted mb-0">No orders found yet.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h5 class="mb-3">Recommended products</h5>
+            <div class="row g-3">
+                {% for product in recommended_products %}
+                <div class="col-12">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">{{ product.name }}</h6>
+                            <p class="text-muted mb-0">${{ product.price }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p class="text-muted mb-0">No recommendations available.</p>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>

@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect
 from django.db.models import Sum
 
 from accounts.decorators import (
-    super_admin_required,
     admin_required,
     role_required,
 )
@@ -40,18 +39,6 @@ def get_base_dashboard_context():
     }
 
 
-@super_admin_required
-def super_admin_dashboard(request):
-    context = get_base_dashboard_context()
-    context.update({
-        'dashboard_title': 'Super Admin Dashboard',
-        'pending_orders': Order.objects.filter(status='Pending').count(),
-        'pending_bookings': GardenerBooking.objects.filter(status='Pending').count(),
-        'pending_consultations': Consultation.objects.filter(status='Pending').count(),
-    })
-    return render(request, 'dashboard/super_admin_dashboard.html', context)
-
-
 @admin_required
 def admin_dashboard(request):
     context = get_base_dashboard_context()
@@ -59,6 +46,17 @@ def admin_dashboard(request):
         'dashboard_title': 'Admin Dashboard',
         'recent_orders': Order.objects.order_by('-created_at')[:5],
         'recent_services': Service.objects.order_by('-created_at')[:5],
+        'active_users': User.objects.filter(is_active=True).count(),
+        'inactive_users': User.objects.filter(is_active=False).count(),
+    })
+    return render(request, 'dashboard/admin_dashboard.html', context)
+    context = get_base_dashboard_context()
+    context.update({
+        'dashboard_title': 'Admin Dashboard',
+        'recent_orders': Order.objects.order_by('-created_at')[:5],
+        'recent_services': Service.objects.order_by('-created_at')[:5],
+        'active_users': User.objects.filter(is_active=True).count(),
+        'inactive_users': User.objects.filter(is_active=False).count(),
     })
     return render(request, 'dashboard/admin_dashboard.html', context)
 
@@ -71,7 +69,9 @@ def customer_dashboard(request):
         'consultations_count': Consultation.objects.filter(user=request.user).count(),
         'bookings_count': GardenerBooking.objects.filter(user=request.user).count(),
         'wishlist_count': Wishlist.objects.filter(user=request.user).count(),
+        'cart_count': len(request.session.get('cart', {})) if isinstance(request.session.get('cart', {}), dict) else 0,
         'recent_orders': Order.objects.filter(user=request.user).order_by('-created_at')[:5],
+        'recommended_products': Product.objects.filter(is_available=True).order_by('-created_at')[:4],
     }
     return render(request, 'dashboard/customer_dashboard.html', context)
 
@@ -80,7 +80,8 @@ def customer_dashboard(request):
 def doctor_dashboard(request):
     context = {
         'dashboard_title': 'Doctor Dashboard',
-        'total_consultations': Consultation.objects.filter(status='Pending').count(),
+        'pending_consultations': Consultation.objects.filter(status='Pending').count(),
+        'approved_consultations': Consultation.objects.filter(status='Approved').count(),
         'completed_consultations': Consultation.objects.filter(status='Completed').count(),
         'upcoming_appointments': Consultation.objects.filter(status='Approved').order_by('appointment_date')[:5],
     }
@@ -107,6 +108,7 @@ def seller_dashboard(request):
         'active_products': Product.objects.filter(is_available=True).count(),
         'product_orders': Order.objects.count(),
         'total_revenue': Order.objects.filter(is_completed=True).aggregate(total=Sum('total_amount'))['total'] or 0,
+        'top_products': Product.objects.filter(is_available=True).order_by('-created_at')[:5],
     }
     return render(request, 'dashboard/seller_dashboard.html', context)
 
@@ -130,6 +132,7 @@ def delivery_dashboard(request):
         'pending_orders': Order.objects.filter(status='Pending').count(),
         'shipped_orders': Order.objects.filter(status='Shipped').count(),
         'delivered_orders': Order.objects.filter(status='Delivered').count(),
+        'completed_orders': Order.objects.filter(is_completed=True).count(),
     }
     return render(request, 'dashboard/delivery_dashboard.html', context)
 
@@ -141,6 +144,7 @@ def consultant_dashboard(request):
         'total_consultations': Consultation.objects.count(),
         'approved_consultations': Consultation.objects.filter(status='Approved').count(),
         'pending_consultations': Consultation.objects.filter(status='Pending').count(),
+        'recent_requests': Consultation.objects.order_by('-created_at')[:5],
     }
     return render(request, 'dashboard/consultant_dashboard.html', context)
 
@@ -152,5 +156,6 @@ def vendor_dashboard(request):
         'total_products': Product.objects.count(),
         'active_products': Product.objects.filter(is_available=True).count(),
         'orders_count': Order.objects.count(),
+        'total_revenue': Order.objects.filter(is_completed=True).aggregate(total=Sum('total_amount'))['total'] or 0,
     }
     return render(request, 'dashboard/vendor_dashboard.html', context)

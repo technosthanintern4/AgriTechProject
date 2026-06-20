@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 
 from .forms import RegisterForm, UserProfileForm
 from .models import UserProfile
-from .roles import get_role_dashboard_redirect
+from .roles import get_role_dashboard_redirect, assign_user_to_role_group
 
 from orders.models import Order
 from consultations.models import Consultation
@@ -19,6 +19,7 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             UserProfile.objects.get_or_create(user=user)
+            assign_user_to_role_group(user)
             login(request, user)
             return redirect(get_role_dashboard_redirect(user))
     else:

@@ -1,31 +1,106 @@
 {% extends 'dashboard_base.html' %}
 
-{% block dashboard_content %}
-<div class="row g-4">
-    <div class="col-md-6">
-        <div class="card border-0 shadow-sm p-4">
-            <h5>Admin summary</h5>
-            <p class="text-muted">Manage product catalog, orders, and service listings.</p>
-            <div class="row text-center mt-4">
-                <div class="col">
-                    <h3>420</h3>
-                    <p class="text-muted mb-0">Products</p>
+{% block dashboard_header %}
+<div class="row g-3 mb-4">
+    <div class="col-md-8">
+        <div class="bg-warning bg-opacity-10 rounded-4 p-4 text-dark">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h4 class="mb-1">Admin Dashboard</h4>
+                    <p class="mb-0 text-muted">Manage products, orders, and user activity across the marketplace.</p>
                 </div>
-                <div class="col">
-                    <h3>2,100</h3>
-                    <p class="text-muted mb-0">Orders</p>
-                </div>
+                <i class="fas fa-user-cog fa-3x text-warning"></i>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="card border-0 shadow-sm p-4">
-            <h5>Site health</h5>
-            <p class="text-muted">Review pending content and manage marketplace activity.</p>
-            <div class="progress" style="height: 10px;">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 78%;"></div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-3">Admin tools</h6>
+            <p class="mb-0 text-muted">Access product, service, and user management quickly.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="row g-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Products</h6>
+            <h2 class="mb-1">{{ total_products }}</h2>
+            <p class="text-muted mb-0">Total catalog items</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Orders</h6>
+            <h2 class="mb-1">{{ total_orders }}</h2>
+            <p class="text-muted mb-0">Total orders processed</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Active users</h6>
+            <h2 class="mb-1">{{ active_users }}</h2>
+            <p class="text-muted mb-0">Users with active accounts</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h6 class="text-uppercase text-muted mb-2">Inactive users</h6>
+            <h2 class="mb-1">{{ inactive_users }}</h2>
+            <p class="text-muted mb-0">Accounts pending review</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mt-3">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h5 class="mb-3">Recent additions</h5>
+            <p class="text-muted mb-4">Latest orders and services appear here for quick review.</p>
+            <div class="table-responsive">
+                <table class="table table-borderless align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in recent_orders %}
+                        <tr>
+                            <td>#{{ order.id }}</td>
+                            <td>{{ order.created_at|date:'M d, Y' }}</td>
+                            <td>{{ order.status }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-muted">No recent orders available.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            <small class="text-muted">78% completion</small>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h5 class="mb-3">Service updates</h5>
+            <p class="text-muted mb-3">Review the latest service listings recently added to the platform.</p>
+            <ul class="list-group list-group-flush">
+                {% for service in recent_services %}
+                <li class="list-group-item py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>{{ service.name }}</span>
+                        <small class="text-muted">{{ service.created_at|date:'M d' }}</small>
+                    </div>
+                </li>
+                {% empty %}
+                <li class="list-group-item text-muted">No recent services found.</li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>

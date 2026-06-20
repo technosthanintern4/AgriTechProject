@@ -85,6 +85,34 @@ ROLES = {
 }
 
 
+ROLE_GROUP_NAMES = [role_data['display_name'] for role_data in ROLES.values()]
+
+
+def get_role_group_name(role_key):
+    """Return the group name for the given role key."""
+    return ROLES.get(role_key, {}).get('display_name')
+
+
+def assign_user_to_role_group(user):
+    """Assign the user to the matching role group and remove previous role groups."""
+    role = getattr(user, 'role', None)
+    if not role:
+        return
+
+    group_name = get_role_group_name(role)
+    if not group_name:
+        return
+
+    current_groups = Group.objects.filter(name__in=ROLE_GROUP_NAMES)
+    if current_groups.exists():
+        user.groups.remove(*current_groups)
+
+    group, created = Group.objects.get_or_create(name=group_name)
+    if created:
+        print(f"Created role group: {group_name}")
+    user.groups.add(group)
+
+
 def create_roles_and_permissions():
     """Create all roles and assign permissions"""
     
@@ -101,7 +129,6 @@ def create_roles_and_permissions():
         for perm_codename in role_data['permissions']:
             try:
                 # Try to find the permission
-                # First check accounts app
                 permission = Permission.objects.filter(codename=perm_codename).first()
                 
                 if permission:
@@ -128,7 +155,7 @@ def get_role_dashboard_redirect(user):
     """Get dashboard URL based on user role"""
     
     role_map = {
-        'super_admin': 'super_admin_dashboard',
+        'super_admin': 'admin_dashboard',
         'admin': 'admin_dashboard',
         'customer': 'customer_dashboard',
         'doctor': 'doctor_dashboard',
