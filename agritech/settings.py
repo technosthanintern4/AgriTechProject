@@ -18,14 +18,22 @@ SECRET_KEY = os.getenv(
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = os.getenv(
-    "ALLOWED_HOSTS",
-    "localhost,127.0.0.1,agritechproject-2.onrender.com,nursery.technosthan.com"
-).split(",")
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv(
+        "ALLOWED_HOSTS",
+        "localhost,127.0.0.1,agritechproject-2.onrender.com,nursery.technosthan.com"
+    ).split(",")
+    if host.strip()
+]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://agritechproject-2.onrender.com",
-    "https://nursery.technosthan.com",
+    origin.strip()
+    for origin in os.getenv(
+        "CSRF_TRUSTED_ORIGINS",
+        "https://agritechproject-2.onrender.com,https://nursery.technosthan.com"
+    ).split(",")
+    if origin.strip()
 ]
 
 # APPLICATIONS
@@ -100,13 +108,23 @@ TEMPLATES = [
 WSGI_APPLICATION = 'agritech.wsgi.application'
 
 # DATABASE
-DATABASES = {
-    "default": dj_database_url.parse(
-        os.getenv("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=not DEBUG
+        )
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # CLOUDINARY
 CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME")
@@ -149,7 +167,10 @@ STORAGES = {
         "BACKEND": DEFAULT_STORAGE_BACKEND,
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        "BACKEND": os.getenv(
+            "STATICFILES_STORAGE_BACKEND",
+            "whitenoise.storage.CompressedStaticFilesStorage"
+        ),
     },
 }
 
@@ -185,7 +206,7 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # STATIC AND STORAGE
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = STORAGES["staticfiles"]["BACKEND"]
 DEFAULT_FILE_STORAGE = DEFAULT_STORAGE_BACKEND
 
 # Security settings for production
@@ -203,10 +224,6 @@ else:
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
     SECURE_SSL_REDIRECT = False
-
-# Trim whitespace from ALLOWED_HOSTS entries
-ALLOWED_HOSTS = [h.strip() for h in ALLOWED_HOSTS]
-
 
 # =====================================
 # JAZZMIN SETTINGS
@@ -231,7 +248,7 @@ JAZZMIN_SETTINGS = {
 
     # Search Models
     "search_model": [
-        "auth.User",
+        "accounts.User",
         "products.Product",
         "categories.Category",
         "orders.Order",
@@ -259,7 +276,7 @@ JAZZMIN_SETTINGS = {
     # Icons
     "icons": {
         "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
+        "accounts.User": "fas fa-user",
         "auth.group": "fas fa-users",
 
         "products.Product": "fas fa-seedling",

@@ -1,4 +1,9 @@
+import logging
+
 from .models import ProductCategory
+
+
+logger = logging.getLogger(__name__)
 
 def navbar_categories(request):
     try:
@@ -6,8 +11,8 @@ def navbar_categories(request):
             is_active=True
         ).order_by('name')
 
-    except Exception as e:
-        print("Navbar categories error:", e)
+    except Exception:
+        logger.exception("Failed to load navbar product categories")
         categories = []
 
     return {
