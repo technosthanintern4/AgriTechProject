@@ -138,6 +138,7 @@ class UserProfile(models.Model):
     bio = models.TextField(_('bio'), blank=True, null=True)
     alternate_phone = models.CharField(_('alternate phone number'), max_length=20, blank=True, null=True)
     profile_image = models.ImageField(_('profile image'), upload_to='profiles/', blank=True, null=True)
+    user_type = models.CharField(_('user type'), max_length=30, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
