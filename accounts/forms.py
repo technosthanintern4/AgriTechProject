@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from .models import UserProfile
+from .models import AdminRegistrationCode, UserProfile
 
 
 User = get_user_model()
@@ -14,10 +14,19 @@ class RegisterForm(UserCreationForm):
         choices=User.ROLE_CHOICES_REGISTRATION,
         widget=forms.Select(attrs={'class': 'form-control'})
     )
+    admin_access_code = forms.CharField(
+        required=False,
+        label='Admin Access Code',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'autocomplete': 'off',
+            'placeholder': 'Enter Admin Access Code',
+        })
+    )
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'role', 'password1', 'password2']
+        fields = ['username', 'email', 'role', 'admin_access_code', 'password1', 'password2']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -30,6 +39,27 @@ class RegisterForm(UserCreationForm):
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError('A user with this email already exists.')
         return email
+
+    def clean(self):
+        cleaned_data = super().clean()
+        role = cleaned_data.get('role')
+        code = (cleaned_data.get('admin_access_code') or '').strip()
+
+        if role != User.ROLE_ADMIN:
+            cleaned_data['admin_access_code'] = ''
+            return cleaned_data
+
+        if not code:
+            self.add_error('admin_access_code', 'Invalid Admin Access Code')
+            return cleaned_data
+
+        admin_code = AdminRegistrationCode.objects.filter(code=code).first()
+        if not admin_code or not admin_code.can_be_used:
+            self.add_error('admin_access_code', 'Invalid Admin Access Code')
+            return cleaned_data
+
+        cleaned_data['admin_access_code'] = code
+        return cleaned_data
 
 
 class CustomUserChangeForm(UserChangeForm):

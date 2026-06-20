@@ -18,7 +18,7 @@
 
                     {% if form.errors %}
                     <div class="alert alert-danger">
-                        {{ form.errors }}
+                        Please correct the highlighted fields below.
                     </div>
                     {% endif %}
 
@@ -31,6 +31,9 @@
                                 Username
                             </label>
                             {{ form.username }}
+                            {% for error in form.username.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
                         </div>
 
                         <div class="mb-3">
@@ -38,6 +41,9 @@
                                 Email
                             </label>
                             {{ form.email }}
+                            {% for error in form.email.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
                         </div>
 
                         <div class="mb-3">
@@ -45,6 +51,28 @@
                                 Role
                             </label>
                             {{ form.role }}
+                            {% for error in form.role.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3" id="admin-code-section" style="display:none;">
+                            <label class="form-label">
+                                Admin Access Code
+                            </label>
+                            <div class="input-group">
+                                {{ form.admin_access_code }}
+                                <button
+                                    class="btn btn-outline-secondary"
+                                    type="button"
+                                    id="toggle-admin-code"
+                                    aria-label="Show Admin Access Code">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            {% for error in form.admin_access_code.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
                         </div>
 
                         <div class="mb-3">
@@ -52,6 +80,9 @@
                                 Password
                             </label>
                             {{ form.password1 }}
+                            {% for error in form.password1.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
                         </div>
 
                         <div class="mb-3">
@@ -59,7 +90,14 @@
                                 Confirm Password
                             </label>
                             {{ form.password2 }}
+                            {% for error in form.password2.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
                         </div>
+
+                        {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
 
                         <button
                             type="submit"
@@ -92,5 +130,44 @@
     </div>
 
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const roleField = document.getElementById('id_role');
+        const adminSection = document.getElementById('admin-code-section');
+        const codeField = document.getElementById('id_admin_access_code');
+        const toggleButton = document.getElementById('toggle-admin-code');
+
+        function syncAdminCodeVisibility() {
+            const isAdmin = roleField && roleField.value === 'admin';
+            if (adminSection) {
+                adminSection.style.display = isAdmin ? 'block' : 'none';
+            }
+            if (!isAdmin && codeField) {
+                codeField.value = '';
+                codeField.type = 'password';
+            }
+        }
+
+        if (roleField) {
+            roleField.addEventListener('change', syncAdminCodeVisibility);
+            syncAdminCodeVisibility();
+        }
+
+        if (toggleButton && codeField) {
+            toggleButton.addEventListener('click', function () {
+                const visible = codeField.type === 'text';
+                codeField.type = visible ? 'password' : 'text';
+                toggleButton.innerHTML = visible
+                    ? '<i class="bi bi-eye"></i>'
+                    : '<i class="bi bi-eye-slash"></i>';
+                toggleButton.setAttribute(
+                    'aria-label',
+                    visible ? 'Show Admin Access Code' : 'Hide Admin Access Code'
+                );
+            });
+        }
+    });
+</script>
 
 {% endblock %}

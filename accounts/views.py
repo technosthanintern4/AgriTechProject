@@ -1,10 +1,13 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import messages
+from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.shortcuts import render, redirect
 
 from .forms import RegisterForm, UserProfileForm
-from .models import UserProfile
+from .models import AdminRegistrationCode, UserProfile
 from .roles import get_role_dashboard_redirect, assign_user_to_role_group
 
 from orders.models import Order
@@ -17,11 +20,35 @@ def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            UserProfile.objects.get_or_create(user=user)
-            assign_user_to_role_group(user)
-            login(request, user)
-            return redirect(get_role_dashboard_redirect(user))
+            try:
+                with transaction.atomic():
+                    user = form.save(commit=False)
+                    admin_code = None
+
+                    if user.role == user.ROLE_ADMIN:
+                        code_value = form.cleaned_data.get('admin_access_code')
+                        admin_code = (
+                            AdminRegistrationCode.objects
+                            .select_for_update()
+                            .filter(code=code_value)
+                            .first()
+                        )
+                        if not admin_code or not admin_code.can_be_used:
+                            raise ValidationError('Invalid Admin Access Code')
+
+                    user.save()
+                    UserProfile.objects.get_or_create(user=user)
+                    assign_user_to_role_group(user)
+
+                    if admin_code:
+                        admin_code.mark_used()
+
+                login(request, user)
+                if user.role == user.ROLE_ADMIN:
+                    messages.success(request, 'Admin account created successfully.')
+                return redirect(get_role_dashboard_redirect(user))
+            except ValidationError:
+                form.add_error('admin_access_code', 'Invalid Admin Access Code')
     else:
         form = RegisterForm()
 

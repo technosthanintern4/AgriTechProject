@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
@@ -152,3 +154,53 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} Profile"
+
+
+class AdminRegistrationCode(models.Model):
+    code = models.CharField(_('code'), max_length=128, unique=True)
+    is_active = models.BooleanField(_('active'), default=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name='created_admin_registration_codes',
+        blank=True,
+        null=True,
+    )
+    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+    expires_at = models.DateTimeField(_('expires at'), blank=True, null=True)
+    usage_limit = models.PositiveIntegerField(_('usage limit'), default=1)
+    used_count = models.PositiveIntegerField(_('used count'), default=0)
+
+    class Meta:
+        verbose_name = _('admin registration code')
+        verbose_name_plural = _('admin registration codes')
+        ordering = ['-created_at']
+
+    def clean(self):
+        if self.usage_limit < 1:
+            raise ValidationError({'usage_limit': _('Usage limit must be at least 1.')})
+        if self.used_count > self.usage_limit:
+            raise ValidationError({'used_count': _('Used count cannot exceed usage limit.')})
+
+    @property
+    def is_expired(self):
+        return bool(self.expires_at and self.expires_at <= timezone.now())
+
+    @property
+    def has_uses_remaining(self):
+        return self.used_count < self.usage_limit
+
+    @property
+    def can_be_used(self):
+        return self.is_active and not self.is_expired and self.has_uses_remaining
+
+    def mark_used(self):
+        if not self.can_be_used:
+            raise ValidationError(_('Invalid Admin Access Code'))
+        self.used_count += 1
+        if self.used_count >= self.usage_limit:
+            self.is_active = False
+        self.save(update_fields=['used_count', 'is_active'])
+
+    def __str__(self):
+        return self.code
